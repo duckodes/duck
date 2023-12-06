@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="16x16" href="res/img/duck/duck_16x_144p.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="res/img/duck/duck_32x_144p.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="res/img/duck/duck_96x_144p.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="res/img/duck/duck_192x_144p.png">
+    <link rel="icon" type="image/png" sizes="500x500" href="res/img/duck/duck_500x_144p.png">
+    <link rel="icon" type="image/png" sizes="1024x1024" href="res/img/duck/duck_1024x_144p.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="res/img/duck/duck_57x_144p.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="res/img/duck/duck_60x_144p.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="res/img/duck/duck_72x_144p.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="res/img/duck/duck_76x_144p.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="res/img/duck/duck_114x_144p.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="res/img/duck/duck_120x_144p.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="res/img/duck/duck_144x_144p.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="res/img/duck/duck_152x_144p.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="res/img/duck/duck_180x_144p.png">
+    <link rel="stylesheet" href="res/css/main.css">
+    <link rel="stylesheet" href="res/css/nav.css">
+    <link rel="stylesheet" href="res/css/all-scrollbar.css">
+    <title>Duckode !</title>
+</head>
+
+<body>
+    <div class="duck">
+        <div class="nav">
+            <div class="navbtn">
+                home
+            </div>
+            <div class="navbtn">
+                contact
+            </div>
+        </div>
+        <div class="content">
+            <div class="home">
+                <h1 class="title">HI, I'm Duckode!</h1>
+                <img class="bg-l" src="res/img/duck/duck_1024x_144p.png" alt="">
+                <img class="bg-r" src="res/img/duck/duck_1024x_144p.png" alt="">
+            </div>
+            <div class="contact">
+                <h1>Contact</h1>
+            </div>
+        </div>
+    </div>
+
+    <script src="res/js/scrollviewutils.js"></script>
+    <script>
+        document.querySelectorAll('.navbtn')[0].addEventListener("click", () => {
+            scrollviewutils.cto('.home');
+        });
+        document.querySelectorAll('.navbtn')[1].addEventListener("click", () => {
+            scrollviewutils.cto('.contact');
+        });
+    </script>
+</body>
+
+</html>

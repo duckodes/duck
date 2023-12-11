@@ -20,10 +20,11 @@
     <link rel="apple-touch-icon" sizes="144x144" href="res/img/duck/duck_144x_144p.png">
     <link rel="apple-touch-icon" sizes="152x152" href="res/img/duck/duck_152x_144p.png">
     <link rel="apple-touch-icon" sizes="180x180" href="res/img/duck/duck_180x_144p.png">
+    <link rel="stylesheet" href="https://lib.duckode.com/css/font-face.css">
     <link rel="stylesheet" href="res/css/main.css">
     <link rel="stylesheet" href="res/css/nav.css">
     <link rel="stylesheet" href="res/css/all-scrollbar.css">
-    <title>Duckode !</title>
+    <title>Duckode&lt;&gt;</title>
 </head>
 
 <body>
@@ -38,7 +39,7 @@
         </div>
         <div class="content">
             <div class="home">
-                <h1 class="title">HI, I'm Duckode!</h1>
+                <h1 class="title">Hello, I'm Duckode!</h1>
                 <img class="bg-l select-none" src="res/img/duck/duck_1024x_144p.png" alt="" draggable="false">
                 <img class="bg-r select-none" src="res/img/duck/duck_1024x_144p.png" alt="" draggable="false">
             </div>
@@ -47,8 +48,7 @@
             </div>
         </div>
     </div>
-
-    <script src="res/js/scrollviewutils.js"></script>
+    <script src="https://lib.duckode.com/js/scrollviewutils.min.js"></script>
     <script>
         document.querySelectorAll('.navbtn')[0].addEventListener("click", () => {
             scrollviewutils.cto('.home');
@@ -56,6 +56,14 @@
         document.querySelectorAll('.navbtn')[1].addEventListener("click", () => {
             scrollviewutils.cto('.contact');
         });
+    </script>
+    <script src="res/js/dynamicontent.js"></script>
+    <script>
+        dynamicontent.init(["</>", "Duckode"], document.querySelector('title'));
+    </script>
+    <script src="https://lib.duckode.com/js/motionbackground.min.js"></script>
+    <script>
+        motionbackground.initdotor('#33550000', '#6677ff30');
     </script>
 </body>
 

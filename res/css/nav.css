@@ -1,5 +1,5 @@
 .nav {
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: 'Poiret_One';
     position: fixed;
     top: 0px;
     width: 100%;
@@ -9,7 +9,7 @@
     align-items: center;
     flex-wrap: wrap;
     z-index: 1;
-    background-color: ghostwhite;
+    background-color: #f0f0f0;
 }
 
 .navbtn {

@@ -5,26 +5,26 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" sizes="16x16" href="res/img/duck/duck_16x_144p.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="res/img/duck/duck_32x_144p.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="res/img/duck/duck_96x_144p.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="res/img/duck/duck_192x_144p.png">
-    <link rel="icon" type="image/png" sizes="500x500" href="res/img/duck/duck_500x_144p.png">
-    <link rel="icon" type="image/png" sizes="1024x1024" href="res/img/duck/duck_1024x_144p.png">
-    <link rel="apple-touch-icon" sizes="57x57" href="res/img/duck/duck_57x_144p.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="res/img/duck/duck_60x_144p.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="res/img/duck/duck_72x_144p.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="res/img/duck/duck_76x_144p.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="res/img/duck/duck_114x_144p.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="res/img/duck/duck_120x_144p.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="res/img/duck/duck_144x_144p.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="res/img/duck/duck_152x_144p.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="res/img/duck/duck_180x_144p.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/duck/duck_16x_144p.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/duck/duck_32x_144p.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="img/duck/duck_96x_144p.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="img/duck/duck_192x_144p.png">
+    <link rel="icon" type="image/png" sizes="500x500" href="img/duck/duck_500x_144p.png">
+    <link rel="icon" type="image/png" sizes="1024x1024" href="img/duck/duck_1024x_144p.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="img/duck/duck_57x_144p.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="img/duck/duck_60x_144p.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="img/duck/duck_72x_144p.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="img/duck/duck_76x_144p.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="img/duck/duck_114x_144p.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="img/duck/duck_120x_144p.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="img/duck/duck_144x_144p.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="img/duck/duck_152x_144p.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/duck/duck_180x_144p.png">
     <link rel="stylesheet" href="https://lib.duckode.com/css/font-face.css">
-    <link rel="stylesheet" href="res/css/main.css">
-    <link rel="stylesheet" href="res/css/nav.css">
-    <link rel="stylesheet" href="res/css/all-scrollbar.css">
-    <title>Duckode&lt;&gt;</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/all-scrollbar.css">
+    <title>Duckode</title>
 </head>
 
 <body>
@@ -39,9 +39,7 @@
         </div>
         <div class="content">
             <div class="home">
-                <h1 class="title">Hello, I'm Duckode!</h1>
-                <img class="bg-l select-none" src="res/img/duck/duck_1024x_144p.png" alt="" draggable="false">
-                <img class="bg-r select-none" src="res/img/duck/duck_1024x_144p.png" alt="" draggable="false">
+                <h1 class="title">Hello</h1>
             </div>
             <div class="contact">
                 <h1>Contact</h1>
@@ -57,13 +55,14 @@
             scrollviewutils.cto('.contact');
         });
     </script>
-    <script src="res/js/dynamicontent.js"></script>
+    <script src="https://lib.duckode.com/js/dynamicontent.min.js"></script>
     <script>
-        dynamicontent.init(["</>", "Duckode"], document.querySelector('title'));
+        dynamicontent.inititle(["Duckode", "Hello", "Quack, quack!"], document.querySelector('title'));
+        dynamicontent.init(["Hello", "Duckode", "Quack, quack!"], document.querySelector('h1'), '#36f', 5000);
     </script>
     <script src="https://lib.duckode.com/js/motionbackground.min.js"></script>
     <script>
-        motionbackground.initdotor('#33550000', '#6677ff30');
+        motionbackground.initdotliner('#00000070', '#00000010');
     </script>
 </body>
 

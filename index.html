@@ -22,8 +22,8 @@
     <link rel="apple-touch-icon" sizes="180x180" href="img/duck/duck_180x_144p.png">
     <link rel="stylesheet" href="https://lib.duckode.com/css/font-face.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/default.css">
     <link rel="stylesheet" href="css/nav.css">
-    <link rel="stylesheet" href="css/all-scrollbar.css">
     <title>Duckode</title>
 </head>
 
@@ -43,6 +43,21 @@
             </div>
             <div class="contact">
                 <h1>Contact</h1>
+                <div class="field">
+                    <div>
+                        post status:
+                        <button id="btn-status">private</button>
+                        (click to change)
+                    </div>
+                    <textarea placeholder="comments.." name="" id="comment" cols="30" rows="10"></textarea>
+                    <div class="name-field">
+                        <input placeholder="name.." type="text" id="name" />
+                    </div>
+                </div>
+                <div>
+                    <button id="post">Post</button>
+                </div>
+                <div id="comments"></div>
             </div>
         </div>
     </div>
@@ -63,6 +78,121 @@
     <script src="https://lib.duckode.com/js/motionbackground.min.js"></script>
     <script>
         motionbackground.initdotliner('#00000070', '#00000010');
+    </script>
+    <script src="js/index.js"></script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyA8hXpj7Jqo84IYASvibOT46r71WMSbN88",
+            authDomain: "source-c3817.firebaseapp.com",
+            projectId: "source-c3817",
+            storageBucket: "source-c3817.appspot.com",
+            messagingSenderId: "262948457201",
+            appId: "1:262948457201:web:bae1b685432d4bed84b750"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+        import { getDatabase, ref, child, get, set, update, remove, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        const database = getDatabase();
+        let sizef = 0;
+
+        let name = document.getElementById("name");
+        let comment = document.getElementById("comment");
+        let comments = document.getElementById('comments');
+
+        document.getElementById("post").addEventListener('click', () => {
+            if (index.status()) {
+                ppost();
+            } else {
+                post();
+            }
+        })
+
+        function post() {
+            if (name.value === "") {
+                return alert('please input your name');
+            } else if (comment.value === "") {
+                return alert('please input comment');
+            } else if (name.value.includes('?id=')) {
+                return alert('error cannot include "?id="');
+            }
+            set(ref(database, 'comments/public/' + name.value + "?id=" + index.pID()), {
+                comment: comment.value,
+            })
+                .then(() => {
+                    alert("Post Successed");
+                    comments.innerHTML = "";
+
+                    repost();
+                    name.value = "";
+                    comment.value = "";
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
+        repost();
+        function repost() {
+            const dbref = ref(database);
+            get(child(dbref, 'comments/public/'))
+                .then((cmts) => {
+                    if (cmts.exists()) {
+                        cmts.forEach(e => {
+                            get(child(dbref, 'comments/public/' + e.key))
+                                .then((cmts) => {
+                                    if (cmts.exists()) {
+                                        cmts.forEach(c => {
+
+                                            const h1 = document.createElement('h1');
+                                            h1.innerText = index.rcasc(e.key);
+                                            comments.appendChild(h1);
+
+                                            const h3 = document.createElement('h3');
+                                            h3.innerText = c.val();
+                                            comments.appendChild(h3);
+                                        });
+                                    }
+                                })
+                        });
+                    } else {
+                        const h6 = document.createElement('h3');
+                        h6.innerText = "none comments";
+                        h6.style.opacity = "0.5";
+                        comments.appendChild(h6);
+                    }
+                })
+        }
+        function ppost() {
+            if (name.value === "") {
+                return alert('please input your name');
+            } else if (comment.value === "") {
+                return alert('please input comment');
+            } else if (name.value.includes('?id=')) {
+                return alert('error cannot include "?id="');
+            }
+            set(ref(database, 'comments/private/' + name.value + "?id=" + index.pID()), {
+                comment: comment.value,
+            })
+                .then(() => {
+                    alert("Post Successed");
+                    comments.innerHTML = "";
+
+                    repost();
+                    name.value = "";
+                    comment.value = "";
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
     </script>
 </body>
 

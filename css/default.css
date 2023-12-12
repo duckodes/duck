@@ -21,3 +21,8 @@
 ::-webkit-scrollbar-track {
     background: #ffffff00;
 }
+
+::selection {
+    color: white;
+    background-color: #3498db;
+}

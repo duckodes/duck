@@ -25,7 +25,6 @@ body {
 .content {
     font-family: 'Ysabeau_SC';
     width: 100%;
-    padding-top: 80px;
 }
 
 .home {
@@ -33,11 +32,11 @@ body {
     align-self: center;
     justify-content: center;
     padding: 20%;
+    margin-top: 58px;
 }
 
 .title {
     text-align: center;
-    height: 50vh;
 }
 
 .bg-l {
@@ -74,6 +73,11 @@ body {
     z-index: 0;
 }
 
+.contact h1 {
+    align-self: center;
+    justify-content: center;
+}
+
 .field {
     display: flex;
     align-self: center;
@@ -90,7 +94,19 @@ body {
 }
 
 #comment {
+    align-self: center;
     width: 100%;
+    height: 150px;
+    background: white;
+    text-align: left;
+    padding: 5%;
+    word-break: break-all;
+    border: 1px solid #00000050;
+}
+
+#comment:empty::before {
+    content: "comments..";
+    opacity: 0.5;
 }
 
 #name {
@@ -108,4 +124,58 @@ body {
     color: red;
     border: 0;
     cursor: pointer;
+}
+
+.comment-tools {
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    background-color: white;
+    width: auto;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+    padding: 2%;
+    margin: 2%;
+    visibility: hidden;
+}
+
+.tools-active {
+    background-color: #00000050;
+}
+
+.tools-hover {
+    background-color: #00000020;
+}
+
+#comment:focus+.comment-tools {
+    visibility: visible;
+}
+
+.comment-tools .tools-blod {
+    width: 30px;
+    height: 30px;
+    font-size: larger;
+    font-weight: 800;
+    border-radius: 5px;
+    user-select: none;
+    cursor: pointer;
+}
+
+.comment-tools .tools-blod:active {
+    background-color: #00000070;
+}
+
+.comment-tools .tools-i {
+    width: 30px;
+    height: 30px;
+    font-size: larger;
+    font-weight: 600;
+    border-radius: 5px;
+    user-select: none;
+    cursor: pointer;
+}
+
+.comment-tools .tools-i:active {
+    background-color: #00000070;
 }

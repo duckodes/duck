@@ -49,7 +49,15 @@
                         <button id="btn-status">private</button>
                         (click to change)
                     </div>
-                    <textarea placeholder="comments.." name="" id="comment" cols="30" rows="10"></textarea>
+                    <div style="font-family: Poiret_One;" placeholder="comments.." name="" id="comment" cols="30" rows="10" contenteditable="true"></div>
+                    <div class="comment-tools">
+                        <div class="tools-blod">
+                            B
+                        </div>
+                        <div class="tools-i">
+                            <em style="font-family: 'Times New Roman', Times, serif;">I</em>
+                        </div>
+                    </div>
                     <div class="name-field">
                         <input placeholder="name.." type="text" id="name" />
                     </div>
@@ -57,7 +65,7 @@
                 <div>
                     <button id="post">Post</button>
                 </div>
-                <div id="comments"></div>
+                <div id="comments" style="font-family: Poiret_One;"></div>
             </div>
         </div>
     </div>
@@ -119,13 +127,13 @@
         function post() {
             if (name.value === "") {
                 return alert('please input your name');
-            } else if (comment.value === "") {
+            } else if (comment.textContent === "") {
                 return alert('please input comment');
             } else if (name.value.includes('?id=')) {
                 return alert('error cannot include "?id="');
             }
             set(ref(database, 'comments/public/' + name.value + "?id=" + index.pID()), {
-                comment: comment.value,
+                comment: comment.innerHTML,
             })
                 .then(() => {
                     alert("Post Successed");
@@ -133,7 +141,7 @@
 
                     repost();
                     name.value = "";
-                    comment.value = "";
+                    comment.innerHTML = "";
                 })
                 .catch((error) => {
                     console.log(error);
@@ -155,8 +163,8 @@
                                             h1.innerText = index.rcasc(e.key);
                                             comments.appendChild(h1);
 
-                                            const h3 = document.createElement('h3');
-                                            h3.innerText = c.val();
+                                            const h3 = document.createElement('div');
+                                            h3.innerHTML = c.val();
                                             comments.appendChild(h3);
                                         });
                                     }
@@ -173,13 +181,13 @@
         function ppost() {
             if (name.value === "") {
                 return alert('please input your name');
-            } else if (comment.value === "") {
+            } else if (comment.textContent === "") {
                 return alert('please input comment');
             } else if (name.value.includes('?id=')) {
                 return alert('error cannot include "?id="');
             }
             set(ref(database, 'comments/private/' + name.value + "?id=" + index.pID()), {
-                comment: comment.value,
+                comment: comment.innerHTML,
             })
                 .then(() => {
                     alert("Post Successed");
@@ -187,7 +195,7 @@
 
                     repost();
                     name.value = "";
-                    comment.value = "";
+                    comment.innerHTML = "";
                 })
                 .catch((error) => {
                     console.log(error);

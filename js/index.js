@@ -122,7 +122,7 @@ index = (function () {
     }
 
     document.addEventListener("selectionchange", () => {
-      if(!isNaN(parseInt(getSelectedTextFontSize()))){
+      if (!isNaN(parseInt(getSelectedTextFontSize()))) {
         document.querySelector('.tools-size-num').innerText = parseInt(getSelectedTextFontSize());
       }
       if (!isStrong()) {

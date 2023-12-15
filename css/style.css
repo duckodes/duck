@@ -35,6 +35,10 @@ body {
     margin-top: 58px;
 }
 
+.home h1 {
+    min-height: 43px;
+}
+
 .title {
     text-align: center;
 }
@@ -96,7 +100,8 @@ body {
 #comment {
     align-self: center;
     width: 100%;
-    height: 150px;
+    height: auto;
+    min-height: 150px;
     background: white;
     text-align: left;
     padding: 5%;
@@ -130,14 +135,13 @@ body {
     display: flex;
     align-self: center;
     justify-content: center;
-    background-color: white;
+    background-color: #ffffffaa;
+    box-shadow: 5px 5px 10px rgba(255, 255, 255, 0.2);
     width: auto;
     height: auto;
     border-radius: 5px;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
     padding: 2%;
     margin: 2%;
-    visibility: hidden;
 }
 
 .tools-active {
@@ -149,7 +153,8 @@ body {
 }
 
 #comment:focus+.comment-tools {
-    visibility: visible;
+    background-color: white;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
 }
 
 .comment-tools .tools-blod {
@@ -178,4 +183,28 @@ body {
 
 .comment-tools .tools-i:active {
     background-color: #00000070;
+}
+
+.comment-tools .tools-size {
+    width: 30px;
+    height: 30px;
+    font-size: larger;
+    font-weight: 600;
+    border-radius: 5px;
+    user-select: none;
+    cursor: pointer;
+}
+
+.comment-tools .tools-size:active {
+    background-color: #00000070;
+}
+
+.comment-tools .tools-size-num {
+    width: 30px;
+    height: 30px;
+    font-size: larger;
+    font-weight: 600;
+    border-radius: 5px;
+    user-select: none;
+    cursor: pointer;
 }

@@ -1,10 +1,10 @@
 index = (function () {
+  init();
   let active = true;
   function status() {
     return active;
   }
   return {
-    init: init,
     status: status,
     pID: pID,
     rcasc: rcasc
@@ -15,11 +15,125 @@ index = (function () {
       document.querySelector('.home').style.marginTop = (navHeight + 30) + 'px';
     });
 
+    let isMouseDown = false;
+    let lastExecution = 0;
+    const interval = 100;
+    document.querySelector('#comment').addEventListener("input", () => {
+      if (document.querySelector('#comment').textContent === "" || document.querySelector('#comment').textContent === null) {
+        document.querySelector('#comment').innerHTML = "";
+      }
+    });
+    document.querySelector('.tools-size.plus').addEventListener("mousedown", () => {
+      isMouseDown = true;
+      function continuousAction(timestamp) {
+        if (isMouseDown) {
+          if (timestamp - lastExecution > interval) {
+            if (parseInt(document.querySelector('.tools-size-num').innerHTML) <= 71) {
+              changeSelectedTextFontSize((parseInt(document.querySelector('.tools-size-num').innerHTML) + 1) + 'px');
+            }
+            lastExecution = timestamp;
+          }
+          requestAnimationFrame(continuousAction);
+        }
+      }
+
+      requestAnimationFrame(continuousAction);
+    });
+    document.querySelector('.tools-size.minus').addEventListener("mousedown", () => {
+      isMouseDown = true;
+      function continuousAction(timestamp) {
+        if (isMouseDown) {
+          if (timestamp - lastExecution > interval) {
+            if (parseInt(document.querySelector('.tools-size-num').innerHTML) > 0) {
+              changeSelectedTextFontSize((parseInt(document.querySelector('.tools-size-num').innerHTML) - 1) + 'px');
+            }
+            lastExecution = timestamp;
+          }
+          requestAnimationFrame(continuousAction);
+        }
+      }
+
+      requestAnimationFrame(continuousAction);
+    });
+    document.addEventListener('mouseup', function (event) {
+      isMouseDown = false;
+    });
+
+    function getSelectedTextFontSize() {
+      let selection = window.getSelection();
+      if (selection.rangeCount > 0) {
+        let range = selection.getRangeAt(0);
+
+        // Get the container node of the selected range
+        let container = range.commonAncestorContainer;
+
+        // Check if the container is a text node, if so, get its parent element
+        if (container.nodeType === Node.TEXT_NODE) {
+          container = container.parentElement;
+        }
+
+        // Find the deepest element containing the whole selection
+        while (container.childNodes.length === 1 && container.firstChild.nodeType === Node.ELEMENT_NODE) {
+          container = container.firstChild;
+        }
+
+        // Get the computed style of the deepest element to retrieve font-size
+        let fontSize = window.getComputedStyle(container).fontSize;
+        return fontSize;
+      } else {
+        document.querySelector('.tools-size-num').innerText = "";
+        return null;
+      }
+    }
+    function changeSelectedTextFontSize(newSize) {
+      let selection = window.getSelection();
+      if (selection.rangeCount > 0) {
+        let range = selection.getRangeAt(0);
+        let selectedText = range.toString();
+        let startNode = range.startContainer;
+        let endNode = range.endContainer;
+
+        let spanElement = document.createElement('span');
+        spanElement.textContent = selectedText;
+        spanElement.style.fontSize = newSize;
+
+        // Extract the selected text
+        range.deleteContents();
+        range.insertNode(spanElement);
+
+        // Re-select the original range
+        let newRange = document.createRange();
+        if (startNode.nodeType === Node.TEXT_NODE) {
+          newRange.setStart(spanElement.firstChild, 0);
+          newRange.setEnd(spanElement.firstChild, selectedText.length);
+        } else {
+          newRange.selectNodeContents(spanElement);
+        }
+
+        selection.removeAllRanges();
+        selection.addRange(newRange);
+
+        document.querySelector('#comment').childNodes.forEach(span => {
+          if (span.innerText === "" || null) {
+            span.remove();
+          }
+        });
+      }
+    }
+
     document.addEventListener("selectionchange", () => {
+      if(!isNaN(parseInt(getSelectedTextFontSize()))){
+        document.querySelector('.tools-size-num').innerText = parseInt(getSelectedTextFontSize());
+      }
       if (!isStrong()) {
         document.querySelector('.tools-blod').classList.remove('tools-active');
       } else {
         document.querySelector('.tools-blod').classList.add('tools-active');
+      }
+      if (!isEm()) {
+        document.querySelector('.tools-i').classList.remove('tools-active');
+      } else {
+        document.querySelector('.tools-i').classList.add('tools-active');
       }
     });
 
@@ -32,6 +146,12 @@ index = (function () {
         });
         this.classList.remove('tools-hover');
         this.classList.toggle('tools-active');
+        if (c === document.querySelectorAll('.tools-size')[0] ||
+          c === document.querySelectorAll('.tools-size')[1] ||
+          c === document.querySelector('.tools-size-num')) {
+          c.classList.remove('tools-active');
+        }
+
         if (this.classList.contains('tools-blod') && this.classList.contains('tools-active')) {
           if (!document.querySelector('#comment').contains(document.querySelector("strong"))) {
             document.querySelector('#comment').appendChild(document.createElement("strong"));
@@ -39,6 +159,14 @@ index = (function () {
           moveTextInsideStrong();
         } else if (this.classList.contains('tools-blod') && !this.classList.contains('tools-active')) {
           moveTextOutsideStrong();
+        }
+        if (this.classList.contains('tools-i') && this.classList.contains('tools-active')) {
+          if (!document.querySelector('#comment').contains(document.querySelector("em"))) {
+            document.querySelector('#comment').appendChild(document.createElement("em"));
+          }
+          moveTextInsideEm();
+        } else if (this.classList.contains('tools-i') && !this.classList.contains('tools-active')) {
+          moveTextOutsideEm();
         }
       });
       c.addEventListener('mousedown', function (e) {
@@ -93,48 +221,53 @@ index = (function () {
         let range = selection.getRangeAt(0);
 
         let selectedText = range.toString();
-        let strongElement = document.querySelector('#comment strong');
+        let strongElements = document.querySelectorAll('#comment strong');
 
-        let strongRange = document.createRange();
-        strongRange.selectNode(strongElement);
+        strongElements.forEach(strongElement => {
+          let strongRange = document.createRange();
+          strongRange.selectNode(strongElement);
 
-        if (strongRange.compareBoundaryPoints(Range.START_TO_START, range) <= 0 && strongRange.compareBoundaryPoints(Range.END_TO_END, range) >= 0) {
-          let parent = strongElement.parentNode;
-          let content = strongElement.innerHTML;
+          if (
+            strongRange.compareBoundaryPoints(Range.START_TO_START, range) <= 0 &&
+            strongRange.compareBoundaryPoints(Range.END_TO_END, range) >= 0
+          ) {
+            let parent = strongElement.parentNode;
+            let content = strongElement.innerHTML;
 
-          let startOffset = range.startOffset;
-          let endOffset = range.endOffset;
+            let startOffset = range.startOffset;
+            let endOffset = range.endOffset;
 
-          let beforeContent = content.substring(0, startOffset);
-          let selectedContent = content.substring(startOffset, endOffset);
-          let afterContent = content.substring(endOffset);
+            let beforeContent = content.substring(0, startOffset);
+            let selectedContent = content.substring(startOffset, endOffset);
+            let afterContent = content.substring(endOffset);
 
-          if (beforeContent !== '') {
-            let beforeStrong = document.createElement('strong');
-            beforeStrong.innerHTML = beforeContent;
-            parent.insertBefore(beforeStrong, strongElement);
-          }
+            if (beforeContent !== '') {
+              let beforeStrong = document.createElement('strong');
+              beforeStrong.innerHTML = beforeContent;
+              parent.insertBefore(beforeStrong, strongElement);
+            }
 
-          if (selectedContent !== '') {
-            let selectedStrong = document.createElement('span');
-            selectedStrong.innerHTML = selectedContent;
-            parent.insertBefore(selectedStrong, strongElement);
-            var spanToRemove = document.getElementById('comment').querySelector('span');
-            var textNode = document.createTextNode(spanToRemove.textContent);
-            var parentElement = spanToRemove.parentElement;
-            parentElement.replaceChild(textNode, spanToRemove);
-          }
+            if (selectedContent !== '') {
+              let selectedStrong = document.createElement('span');
+              selectedStrong.innerHTML = selectedContent;
+              parent.insertBefore(selectedStrong, strongElement);
+              var spanToRemove = parent.querySelector('span');
+              var textNode = document.createTextNode(spanToRemove.textContent);
+              var parentElement = spanToRemove.parentElement;
+              parentElement.replaceChild(textNode, spanToRemove);
+            }
 
-          if (afterContent !== '') {
-            strongElement.innerHTML = afterContent;
+            if (afterContent !== '') {
+              strongElement.innerHTML = afterContent;
+            } else {
+              parent.removeChild(strongElement);
+            }
+
+            range.deleteContents();
           } else {
-            parent.removeChild(strongElement);
+            console.log('Selection includes whole strong element');
           }
-
-          range.deleteContents();
-        } else {
-          console.log('Selection includes whole strong element');
-        }
+        });
       }
     }
     function isStrong() {
@@ -158,6 +291,117 @@ index = (function () {
       }
       return false;
     }
+    function moveTextInsideEm() {
+      let selection = window.getSelection();
+      if (selection.rangeCount > 0) {
+        let range = selection.getRangeAt(0);
+        let selectedText = range.toString();
+        let startNode = range.startContainer;
+        let endNode = range.endContainer;
+
+        let emElement = document.createElement('em');
+        emElement.textContent = selectedText;
+
+        // Extract the selected text
+        range.deleteContents();
+        range.insertNode(emElement);
+
+        // Re-select the original range
+        let newRange = document.createRange();
+        if (startNode.nodeType === Node.TEXT_NODE) {
+          newRange.setStart(emElement.firstChild, 0);
+          newRange.setEnd(emElement.firstChild, selectedText.length);
+        } else {
+          newRange.selectNodeContents(emElement);
+        }
+
+        selection.removeAllRanges();
+        selection.addRange(newRange);
+
+        document.querySelector('#comment').childNodes.forEach(em => {
+          if (em.innerText === "" || null) {
+            em.remove();
+          }
+        });
+      }
+    }
+    function moveTextOutsideEm() {
+      let selection = window.getSelection();
+      if (selection.rangeCount > 0) {
+        let range = selection.getRangeAt(0);
+
+        let selectedText = range.toString();
+        let emElements = document.querySelectorAll('#comment em');
+
+        emElements.forEach(emElement => {
+          let emRange = document.createRange();
+          emRange.selectNode(emElement);
+
+          if (
+            emRange.compareBoundaryPoints(Range.START_TO_START, range) <= 0 &&
+            emRange.compareBoundaryPoints(Range.END_TO_END, range) >= 0
+          ) {
+            let parent = emElement.parentNode;
+            let content = emElement.innerHTML;
+
+            let startOffset = range.startOffset;
+            let endOffset = range.endOffset;
+
+            let beforeContent = content.substring(0, startOffset);
+            let selectedContent = content.substring(startOffset, endOffset);
+            let afterContent = content.substring(endOffset);
+
+            if (beforeContent !== '') {
+              let beforeem = document.createElement('em');
+              beforeem.innerHTML = beforeContent;
+              parent.insertBefore(beforeem, emElement);
+            }
+
+            if (selectedContent !== '') {
+              let selectedem = document.createElement('span');
+              selectedem.innerHTML = selectedContent;
+              parent.insertBefore(selectedem, emElement);
+              var spanToRemove = parent.querySelector('span');
+              var textNode = document.createTextNode(spanToRemove.textContent);
+              var parentElement = spanToRemove.parentElement;
+              parentElement.replaceChild(textNode, spanToRemove);
+            }
+
+            if (afterContent !== '') {
+              emElement.innerHTML = afterContent;
+            } else {
+              parent.removeChild(emElement);
+            }
+
+            range.deleteContents();
+          } else {
+            console.log('Selection includes whole em element');
+          }
+        });
+      }
+    }
+    function isEm() {
+      let selection = window.getSelection();
+      if (selection.rangeCount > 0) {
+        let range = selection.getRangeAt(0);
+        let startNode = range.startContainer;
+        let endNode = range.endContainer;
+
+        let emElements = document.querySelectorAll('#comment em');
+
+        for (let i = 0; i < emElements.length; i++) {
+          const emElement = emElements[i];
+          if (emElement) {
+            let isInem = emElement.contains(startNode) && emElement.contains(endNode);
+            if (isInem) {
+              return true;
+            }
+          }
+        }
+      }
+      return false;
+    }
+
     const pbtn = document.getElementById("btn-status");
     pbtn.addEventListener("click", () => {
       if (!active) {
@@ -185,4 +429,3 @@ index = (function () {
     return is;
   }
 }());
-index.init();

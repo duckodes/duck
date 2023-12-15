@@ -49,13 +49,20 @@
                         <button id="btn-status">private</button>
                         (click to change)
                     </div>
-                    <div style="font-family: Poiret_One;" placeholder="comments.." name="" id="comment" cols="30" rows="10" contenteditable="true"></div>
+                    <div style="font-family: Poiret_One;" id="comment" contenteditable="true"></div>
                     <div class="comment-tools">
                         <div class="tools-blod">
                             B
                         </div>
                         <div class="tools-i">
                             <em style="font-family: 'Times New Roman', Times, serif;">I</em>
+                        </div>
+                        <div class="tools-size-num" contenteditable="true"></div>
+                        <div class="tools-size plus">
+                            +
+                        </div>
+                        <div class="tools-size minus">
+                            -
                         </div>
                     </div>
                     <div class="name-field">
@@ -89,118 +96,124 @@
     </script>
     <script src="js/index.js"></script>
     <script type="module">
+        let initsie = false;
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         // TODO: Add SDKs for Firebase products that you want to use
         // https://firebase.google.com/docs/web/setup#available-libraries
 
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyA8hXpj7Jqo84IYASvibOT46r71WMSbN88",
-            authDomain: "source-c3817.firebaseapp.com",
-            projectId: "source-c3817",
-            storageBucket: "source-c3817.appspot.com",
-            messagingSenderId: "262948457201",
-            appId: "1:262948457201:web:bae1b685432d4bed84b750"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-
         import { getDatabase, ref, child, get, set, update, remove, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-        const database = getDatabase();
-        let sizef = 0;
+        window.addEventListener('scroll', function () {
+            if (scrollviewutils.sie(".field") && !initsie) {
+                // Your web app's Firebase configuration
+                const firebaseConfig = {
+                    apiKey: "AIzaSyA8hXpj7Jqo84IYASvibOT46r71WMSbN88",
+                    authDomain: "source-c3817.firebaseapp.com",
+                    projectId: "source-c3817",
+                    storageBucket: "source-c3817.appspot.com",
+                    messagingSenderId: "262948457201",
+                    appId: "1:262948457201:web:bae1b685432d4bed84b750"
+                };
 
-        let name = document.getElementById("name");
-        let comment = document.getElementById("comment");
-        let comments = document.getElementById('comments');
+                // Initialize Firebase
+                const app = initializeApp(firebaseConfig);
 
-        document.getElementById("post").addEventListener('click', () => {
-            if (index.status()) {
-                ppost();
-            } else {
-                post();
-            }
-        })
+                const database = getDatabase();
+                let sizef = 0;
 
-        function post() {
-            if (name.value === "") {
-                return alert('please input your name');
-            } else if (comment.textContent === "") {
-                return alert('please input comment');
-            } else if (name.value.includes('?id=')) {
-                return alert('error cannot include "?id="');
-            }
-            set(ref(database, 'comments/public/' + name.value + "?id=" + index.pID()), {
-                comment: comment.innerHTML,
-            })
-                .then(() => {
-                    alert("Post Successed");
-                    comments.innerHTML = "";
+                let name = document.getElementById("name");
+                let comment = document.getElementById("comment");
+                let comments = document.getElementById('comments');
 
-                    repost();
-                    name.value = "";
-                    comment.innerHTML = "";
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-        }
-        repost();
-        function repost() {
-            const dbref = ref(database);
-            get(child(dbref, 'comments/public/'))
-                .then((cmts) => {
-                    if (cmts.exists()) {
-                        cmts.forEach(e => {
-                            get(child(dbref, 'comments/public/' + e.key))
-                                .then((cmts) => {
-                                    if (cmts.exists()) {
-                                        cmts.forEach(c => {
-
-                                            const h1 = document.createElement('h1');
-                                            h1.innerText = index.rcasc(e.key);
-                                            comments.appendChild(h1);
-
-                                            const h3 = document.createElement('div');
-                                            h3.innerHTML = c.val();
-                                            comments.appendChild(h3);
-                                        });
-                                    }
-                                })
-                        });
+                document.getElementById("post").addEventListener('click', () => {
+                    if (index.status()) {
+                        ppost();
                     } else {
-                        const h6 = document.createElement('h3');
-                        h6.innerText = "none comments";
-                        h6.style.opacity = "0.5";
-                        comments.appendChild(h6);
+                        post();
                     }
                 })
-        }
-        function ppost() {
-            if (name.value === "") {
-                return alert('please input your name');
-            } else if (comment.textContent === "") {
-                return alert('please input comment');
-            } else if (name.value.includes('?id=')) {
-                return alert('error cannot include "?id="');
-            }
-            set(ref(database, 'comments/private/' + name.value + "?id=" + index.pID()), {
-                comment: comment.innerHTML,
-            })
-                .then(() => {
-                    alert("Post Successed");
-                    comments.innerHTML = "";
 
-                    repost();
-                    name.value = "";
-                    comment.innerHTML = "";
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-        }
+                function post() {
+                    if (name.value === "") {
+                        return alert('please input your name');
+                    } else if (comment.textContent === "") {
+                        return alert('please input comment');
+                    } else if (name.value.includes('?id=')) {
+                        return alert('error cannot include "?id="');
+                    }
+                    set(ref(database, 'comments/public/' + name.value + "?id=" + index.pID()), {
+                        comment: comment.innerHTML,
+                    })
+                        .then(() => {
+                            alert("Post Successed");
+                            comments.innerHTML = "";
+
+                            repost();
+                            name.value = "";
+                            comment.innerHTML = "";
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        })
+                }
+                repost();
+                function repost() {
+                    const dbref = ref(database);
+                    get(child(dbref, 'comments/public/'))
+                        .then((cmts) => {
+                            if (cmts.exists()) {
+                                cmts.forEach(e => {
+                                    get(child(dbref, 'comments/public/' + e.key))
+                                        .then((cmts) => {
+                                            if (cmts.exists()) {
+                                                cmts.forEach(c => {
+
+                                                    const h1 = document.createElement('h1');
+                                                    h1.innerText = index.rcasc(e.key);
+                                                    comments.appendChild(h1);
+
+                                                    const h3 = document.createElement('div');
+                                                    h3.innerHTML = c.val();
+                                                    comments.appendChild(h3);
+                                                });
+                                            }
+                                        })
+                                });
+                            } else {
+                                const h6 = document.createElement('h3');
+                                h6.innerText = "none comments";
+                                h6.style.opacity = "0.5";
+                                comments.appendChild(h6);
+                            }
+                        })
+                }
+                function ppost() {
+                    if (name.value === "") {
+                        return alert('please input your name');
+                    } else if (comment.textContent === "") {
+                        return alert('please input comment');
+                    } else if (name.value.includes('?id=')) {
+                        return alert('error cannot include "?id="');
+                    }
+                    set(ref(database, 'comments/private/' + name.value + "?id=" + index.pID()), {
+                        comment: comment.innerHTML,
+                    })
+                        .then(() => {
+                            alert("Post Successed");
+                            comments.innerHTML = "";
+
+                            repost();
+                            name.value = "";
+                            comment.innerHTML = "";
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        })
+                }
+                initsie = true;
+            }
+        });
     </script>
 </body>
 

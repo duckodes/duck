@@ -72,13 +72,14 @@
                 </div>
                 <div>
                     <button id="post" style="font-family: Poiret_One;font-weight: 900;">Post</button>
+                    <button id="reply" style="font-family: Poiret_One;font-weight: 900;display: none;">Reply</button>
+                    <button id="reply-x" style="font-family: Poiret_One;font-weight: 900;display: none;">Cancel</button>
                 </div>
                 <div id="comments" style="font-family: Poiret_One;"></div>
             </div>
         </div>
     </div>
-    <script src="https://lib.duckode.com/res/js/scrollviewutils.js"></script>
-    <!--<script src="https://lib.duckode.com/js/scrollviewutils.min.js"></script>-->
+    <script src="https://lib.duckode.com/js/scrollviewutils.min.js"></script>
     <script>
         document.querySelectorAll('.navbtn')[0].addEventListener("click", () => {
             scrollviewutils.cto('.home');
@@ -174,13 +175,64 @@
                                             if (cmts.exists()) {
                                                 cmts.forEach(c => {
 
-                                                    const h1 = document.createElement('h1');
-                                                    h1.innerText = index.rcasc(e.key);
-                                                    comments.appendChild(h1);
+                                                    if (!c.key.includes('?id=')) {
 
-                                                    const h3 = document.createElement('div');
-                                                    h3.innerHTML = c.val();
-                                                    comments.appendChild(h3);
+                                                        const container = document.createElement('div');
+                                                        container.id = e.key;
+                                                        comments.appendChild(container);
+
+                                                        const h1 = document.createElement('h1');
+                                                        h1.innerText = index.rcasc(e.key);
+                                                        container.appendChild(h1);
+
+                                                        const h3 = document.createElement('div');
+                                                        h3.innerHTML = c.val();
+                                                        container.appendChild(h3);
+
+                                                        const btn = document.createElement('button');
+                                                        btn.innerHTML = "Reply";
+                                                        btn.style.fontFamily = "Poiret_One";
+                                                        btn.style.fontWeight = "900";
+                                                        btn.addEventListener("click", () => {
+
+                                                            document.querySelector("#comment").focus();
+                                                            document.querySelector("#post").style.display = "none";
+                                                            document.querySelector("#reply").style.display = "";
+                                                            document.querySelector("#reply").addEventListener("click", () => {
+                                                                replypost(e);
+                                                            });
+                                                            document.querySelector("#reply-x").style.display = "";
+                                                            document.querySelector("#reply-x").addEventListener("click", () => {
+                                                                document.querySelector("#post").style.display = "";
+                                                                document.querySelector("#reply").style.display = "none";
+                                                                document.querySelector("#reply-x").style.display = "none";
+                                                            });
+                                                        });
+                                                        container.appendChild(btn);
+                                                    } else {
+                                                        get(child(dbref, 'comments/public/' + e.key + "/" + c.key))
+                                                            .then((cmts) => {
+                                                                if (cmts.exists()) {
+                                                                    cmts.forEach(r => {
+                                                                        if (document.getElementById(e.key)) {
+                                                                            const h3 = document.createElement('h3');
+                                                                            h3.innerText = index.rcasc(c.key);
+                                                                            document.getElementById(e.key).appendChild(h3);
+
+                                                                            const div = document.createElement('div');
+                                                                            div.innerHTML = r.val();
+                                                                            document.getElementById(e.key).appendChild(div);
+                                                                        }
+                                                                    });
+                                                                }
+                                                            })
+                                                    }
+
+                                                    setTimeout(() => {
+                                                        if (document.getElementById(e.key)) {
+                                                            document.getElementById(e.key).removeAttribute('id');
+                                                        }
+                                                    }, 300);
                                                 });
                                             }
                                         })
@@ -204,6 +256,31 @@
                         return alert('error cannot include "?id="');
                     }
                     set(ref(database, 'comments/private/' + name.value + "?id=" + index.pID()), {
+                        comment: comment.innerHTML,
+                    })
+                        .then(() => {
+                            alert("Post Successed");
+                            comments.innerHTML = "";
+
+                            repost();
+                            name.value = "";
+                            comment.innerHTML = "";
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        })
+                }
+                function replypost(e) {
+                    if (/^\s+$/.test(name.value)) {
+                        return alert('Please enter a name using letters and numbers');
+                    } else if (name.value.trim() === "") {
+                        return alert('Please input your name');
+                    } else if (comment.textContent.trim() === "") {
+                        return alert('Please input comment');
+                    } else if (name.value.includes('?id=')) {
+                        return alert('error cannot include "?id="');
+                    }
+                    set(ref(database, 'comments/public/' + e.key + '/' + name.value + "?id=" + index.pID()), {
                         comment: comment.innerHTML,
                     })
                         .then(() => {

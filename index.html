@@ -59,24 +59,26 @@
                         </div>
                         <div class="tools-size-num" contenteditable="true"></div>
                         <div class="tools-size plus">
-                            +
+                            &#43;
                         </div>
                         <div class="tools-size minus">
-                            -
+                            &#8722;
                         </div>
                     </div>
                     <div class="name-field">
-                        <input placeholder="name.." type="text" id="name" />
+                        <input placeholder="name.." type="text" id="name"
+                            style="font-family: Poiret_One;font-weight: 900;" />
                     </div>
                 </div>
                 <div>
-                    <button id="post">Post</button>
+                    <button id="post" style="font-family: Poiret_One;font-weight: 900;">Post</button>
                 </div>
                 <div id="comments" style="font-family: Poiret_One;"></div>
             </div>
         </div>
     </div>
-    <script src="https://lib.duckode.com/js/scrollviewutils.min.js"></script>
+    <script src="https://lib.duckode.com/res/js/scrollviewutils.js"></script>
+    <!--<script src="https://lib.duckode.com/js/scrollviewutils.min.js"></script>-->
     <script>
         document.querySelectorAll('.navbtn')[0].addEventListener("click", () => {
             scrollviewutils.cto('.home');
@@ -104,8 +106,9 @@
 
         import { getDatabase, ref, child, get, set, update, remove, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-        window.addEventListener('scroll', function () {
-            if (scrollviewutils.sie(".field") && !initsie) {
+        window.addEventListener('scroll', sie);
+        function sie() {
+            if (scrollviewutils.sie("#comments") && !initsie) {
                 // Your web app's Firebase configuration
                 const firebaseConfig = {
                     apiKey: "AIzaSyA8hXpj7Jqo84IYASvibOT46r71WMSbN88",
@@ -135,10 +138,12 @@
                 })
 
                 function post() {
-                    if (name.value === "") {
-                        return alert('please input your name');
-                    } else if (comment.textContent === "") {
-                        return alert('please input comment');
+                    if (/^\s+$/.test(name.value)) {
+                        return alert('Please enter a name using letters and numbers');
+                    } else if (name.value.trim() === "") {
+                        return alert('Please input your name');
+                    } else if (comment.textContent.trim() === "") {
+                        return alert('Please input comment');
                     } else if (name.value.includes('?id=')) {
                         return alert('error cannot include "?id="');
                     }
@@ -189,10 +194,12 @@
                         })
                 }
                 function ppost() {
-                    if (name.value === "") {
-                        return alert('please input your name');
-                    } else if (comment.textContent === "") {
-                        return alert('please input comment');
+                    if (/^\s+$/.test(name.value)) {
+                        return alert('Please enter a name using letters and numbers');
+                    } else if (name.value.trim() === "") {
+                        return alert('Please input your name');
+                    } else if (comment.textContent.trim() === "") {
+                        return alert('Please input comment');
                     } else if (name.value.includes('?id=')) {
                         return alert('error cannot include "?id="');
                     }
@@ -212,8 +219,9 @@
                         })
                 }
                 initsie = true;
+                window.removeEventListener('scroll', sie);
             }
-        });
+        }
     </script>
 </body>
 

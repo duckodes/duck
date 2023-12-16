@@ -10,6 +10,8 @@ index = (function () {
     rcasc: rcasc
   };
   function init() {
+    document.querySelector("#comment").setAttribute('data-content', 'comments..');
+
     window.addEventListener('resize', function () {
       const navHeight = document.querySelector('.nav').offsetHeight;
       document.querySelector('.home').style.marginTop = (navHeight + 30) + 'px';

@@ -77,7 +77,8 @@
                 </div>
                 <div id="comments" style="font-family: Poiret_One;"></div>
                 <div>
-                    <button id="showmore" style="font-family: Poiret_One;font-weight: 900;">show more</button>
+                    <button id="showmore" style="font-family: Poiret_One;font-weight: 900;display: none;">show
+                        more</button>
                 </div>
             </div>
         </div>
@@ -112,8 +113,10 @@
         window.addEventListener('scroll', sie);
         function sie() {
             let initsie = false;
+            let posting = false;
             let maxpost = 2;
             let postsize = 0;
+
             if (scrollviewutils.sie("#comments") && !initsie) {
                 // Your web app's Firebase configuration
                 const firebaseConfig = {
@@ -164,20 +167,24 @@
                     } else if (name.value.includes('?id=')) {
                         return alert('error cannot include "?id="');
                     }
-                    set(ref(database, 'comments/public/' + name.value + "?id=" + index.pID()), {
-                        comment: comment.innerHTML,
-                    })
-                        .then(() => {
-                            alert("Post Successed");
-                            comments.innerHTML = "";
+                    if (!posting) {
+                        set(ref(database, 'comments/public/' + name.value + "?id=" + index.pID()), {
+                            comment: comment.innerHTML,
+                        })
+                            .then(() => {
+                                alert("Post Successed");
+                                posting = false;
+                                comments.innerHTML = "";
 
-                            repost();
-                            name.value = "";
-                            comment.innerHTML = "";
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                        })
+                                repost();
+                                name.value = "";
+                                comment.innerHTML = "";
+                            })
+                            .catch((error) => {
+                                console.log(error);
+                            })
+                        posting = true;
+                    }
                 }
                 repost();
                 function repost() {
@@ -220,6 +227,10 @@
                                                         btn.addEventListener("click", () => {
 
                                                             document.querySelector("#comment").focus();
+                                                            document.querySelectorAll('.navbtn')[1].click();
+                                                            document.querySelector("#comment").setAttribute('data-content', '𝙍𝙀𝙋𝙇𝙔 ＠ ″ ' +
+                                                                index.rcasc(e.key).replace(/a/g, '𝙖').replace(/A/g, '𝘼').replace(/b/g, '𝙗').replace(/B/g, '𝘽').replace(/c/g, '𝙘').replace(/C/g, '𝘾').replace(/d/g, '𝙙').replace(/D/g, '𝘿').replace(/e/g, '𝙚').replace(/E/g, '𝙀').replace(/f/g, '𝙛').replace(/F/g, '𝙁').replace(/g/g, '𝙜').replace(/G/g, '𝙂').replace(/h/g, '𝙝').replace(/H/g, '𝙃').replace(/i/g, '𝙞').replace(/I/g, '𝙄').replace(/j/g, '𝙟').replace(/J/g, '𝙅').replace(/k/g, '𝙠').replace(/K/g, '𝙆').replace(/l/g, '𝙡').replace(/L/g, '𝙇').replace(/m/g, '𝙢').replace(/M/g, '𝙈').replace(/n/g, '𝙣').replace(/N/g, '𝙉').replace(/o/g, '𝙤').replace(/O/g, '𝙊').replace(/p/g, '𝙥').replace(/P/g, '𝙋').replace(/q/g, '𝙦').replace(/Q/g, '𝙌').replace(/r/g, '𝙧').replace(/R/g, '𝙍').replace(/s/g, '𝙨').replace(/S/g, '𝙎').replace(/t/g, '𝙩').replace(/T/g, '𝙏').replace(/u/g, '𝙪').replace(/U/g, '𝙐').replace(/v/g, '𝙫').replace(/V/g, '𝙑').replace(/w/g, '𝙬').replace(/W/g, '𝙒').replace(/x/g, '𝙭').replace(/X/g, '𝙓').replace(/y/g, '𝙮').replace(/Y/g, '𝙔').replace(/z/g, '𝙯').replace(/Z/g, '𝙕').replace(/0/g, '０').replace(/1/g, '１').replace(/2/g, '２').replace(/3/g, '３').replace(/4/g, '４').replace(/5/g, '５').replace(/6/g, '６').replace(/7/g, '７').replace(/8/g, '８').replace(/9/g, '９') +
+                                                                ' ″ ➠ ' + c.val().replace(/a/g, '𝙖').replace(/A/g, '𝘼').replace(/b/g, '𝙗').replace(/B/g, '𝘽').replace(/c/g, '𝙘').replace(/C/g, '𝘾').replace(/d/g, '𝙙').replace(/D/g, '𝘿').replace(/e/g, '𝙚').replace(/E/g, '𝙀').replace(/f/g, '𝙛').replace(/F/g, '𝙁').replace(/g/g, '𝙜').replace(/G/g, '𝙂').replace(/h/g, '𝙝').replace(/H/g, '𝙃').replace(/i/g, '𝙞').replace(/I/g, '𝙄').replace(/j/g, '𝙟').replace(/J/g, '𝙅').replace(/k/g, '𝙠').replace(/K/g, '𝙆').replace(/l/g, '𝙡').replace(/L/g, '𝙇').replace(/m/g, '𝙢').replace(/M/g, '𝙈').replace(/n/g, '𝙣').replace(/N/g, '𝙉').replace(/o/g, '𝙤').replace(/O/g, '𝙊').replace(/p/g, '𝙥').replace(/P/g, '𝙋').replace(/q/g, '𝙦').replace(/Q/g, '𝙌').replace(/r/g, '𝙧').replace(/R/g, '𝙍').replace(/s/g, '𝙨').replace(/S/g, '𝙎').replace(/t/g, '𝙩').replace(/T/g, '𝙏').replace(/u/g, '𝙪').replace(/U/g, '𝙐').replace(/v/g, '𝙫').replace(/V/g, '𝙑').replace(/w/g, '𝙬').replace(/W/g, '𝙒').replace(/x/g, '𝙭').replace(/X/g, '𝙓').replace(/y/g, '𝙮').replace(/Y/g, '𝙔').replace(/z/g, '𝙯').replace(/Z/g, '𝙕').replace(/0/g, '０').replace(/1/g, '１').replace(/2/g, '２').replace(/3/g, '３').replace(/4/g, '４').replace(/5/g, '５').replace(/6/g, '６').replace(/7/g, '７').replace(/8/g, '８').replace(/9/g, '９'));
                                                             document.querySelector("#post").style.display = "none";
                                                             document.querySelector("#reply").style.display = "";
                                                             document.querySelector("#reply").addEventListener("click", () => {
@@ -230,6 +241,7 @@
                                                                 document.querySelector("#post").style.display = "";
                                                                 document.querySelector("#reply").style.display = "none";
                                                                 document.querySelector("#reply-x").style.display = "none";
+                                                                document.querySelector("#comment").setAttribute('data-content', "comments..");
                                                             });
                                                         });
                                                         container.appendChild(btn);
@@ -320,20 +332,24 @@
                     } else if (name.value.includes('?id=')) {
                         return alert('error cannot include "?id="');
                     }
-                    set(ref(database, 'comments/private/' + name.value + "?id=" + index.pID()), {
-                        comment: comment.innerHTML,
-                    })
-                        .then(() => {
-                            alert("Post Successed");
-                            comments.innerHTML = "";
+                    if (!posting) {
+                        set(ref(database, 'comments/private/' + name.value + "?id=" + index.pID()), {
+                            comment: comment.innerHTML,
+                        })
+                            .then(() => {
+                                alert("Post Successed");
+                                posting = false;
+                                comments.innerHTML = "";
 
-                            repost();
-                            name.value = "";
-                            comment.innerHTML = "";
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                        })
+                                repost();
+                                name.value = "";
+                                comment.innerHTML = "";
+                            })
+                            .catch((error) => {
+                                console.log(error);
+                            })
+                        posting = true;
+                    }
                 }
                 function replypost(e) {
                     if (/^\s+$/.test(name.value)) {
@@ -345,20 +361,25 @@
                     } else if (name.value.includes('?id=')) {
                         return alert('error cannot include "?id="');
                     }
-                    set(ref(database, 'comments/public/' + e.key + '/' + name.value + "?id=" + index.pID()), {
-                        comment: comment.innerHTML,
-                    })
-                        .then(() => {
-                            alert("Post Successed");
-                            comments.innerHTML = "";
+                    if (!posting) {
+                        set(ref(database, 'comments/public/' + e.key + '/' + name.value + "?id=" + index.pID()), {
+                            comment: comment.innerHTML,
+                        })
+                            .then(() => {
+                                alert("Post Successed");
+                                posting = false;
+                                comments.innerHTML = "";
 
-                            repost();
-                            name.value = "";
-                            comment.innerHTML = "";
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                        })
+                                repost();
+                                name.value = "";
+                                comment.innerHTML = "";
+                                document.querySelector("#reply-x").click();
+                            })
+                            .catch((error) => {
+                                console.log(error);
+                            })
+                        posting = true;
+                    }
                 }
                 initsie = true;
                 window.removeEventListener('scroll', sie);

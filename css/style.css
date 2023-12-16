@@ -110,8 +110,9 @@ body {
 }
 
 #comment:empty::before {
-    content: "comments..";
+    content: attr(data-content);
     opacity: 0.5;
+    cursor: text;
 }
 
 #name {

@@ -7,15 +7,20 @@ index = (function () {
   return {
     status: status,
     pID: pID,
-    rcasc: rcasc
+    rcasc: rcasc,
+    gcard: gcard
   };
   function init() {
     document.querySelector("#comment").setAttribute('data-content', 'comments..');
 
-    window.addEventListener('resize', function () {
+    homeprefix();
+    window.addEventListener('resize', homeprefix);
+    function homeprefix() {
       const navHeight = document.querySelector('.nav').offsetHeight;
-      document.querySelector('.home').style.marginTop = (navHeight + 30) + 'px';
-    });
+      document.querySelector('.home').style.paddingTop = (navHeight + 325) + 'px';
+      document.querySelector('.home').style.paddingBottom = (navHeight + 300) + 'px';
+      document.querySelector('.card').style.paddingTop = (navHeight + 150) + 'px';
+    }
 
     let isMouseDown = false;
     let lastExecution = 0;
@@ -429,5 +434,47 @@ index = (function () {
       return is.substring(0, index);
     }
     return is;
+  }
+  function gcard(t, i) {
+    const cardarea = document.querySelector('.card-area');
+    const cardbase = document.createElement('div');
+    cardbase.className = "card-base";
+    cardarea.appendChild(cardbase);
+    if (t.trim() !== '') {
+      const span = document.createElement('span');
+      span.textContent = t;
+      cardbase.appendChild(span);
+    }
+    checkImageSrc(i)
+      .then((isValid) => {
+        if (isValid) {
+          const img = document.createElement('img');
+          cardbase.appendChild(img);
+          img.setAttribute("src", i);
+          img.setAttribute("alt", "");
+          img.setAttribute("draggable", "false");
+        } else if (!isValid && t.trim() === '') {
+          cardbase.remove();
+        }
+        const basebtn = document.createElement('div');
+        basebtn.className = "card-btn-base";
+        cardbase.appendChild(basebtn);
+        const btn = document.createElement('button');
+        btn.className = 'card-btn';
+        btn.textContent = "Read More";
+        basebtn.appendChild(btn);
+      });
+    function checkImageSrc(src) {
+      return new Promise((resolve) => {
+        var img = new Image();
+        img.onload = function () {
+          resolve(true);
+        };
+        img.onerror = function () {
+          resolve(false);
+        };
+        img.src = src;
+      });
+    }
   }
 }());

@@ -1,0 +1,74 @@
+.card {
+    width: auto;
+    align-self: center;
+    justify-content: center;
+    padding-top: 100px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.card .card-area {
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.card .card-area .card-base {
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    background: #f0f0f0;
+    box-shadow: 5px 5px 10px #00000050;
+    width: 350px;
+    min-width: 0px;
+    max-width: 350px;
+    margin: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease-out;
+    overflow: hidden;
+}
+
+.card .card-area .card-base:hover {
+    box-shadow: 10px 10px 15px #00000050;
+}
+
+.card .card-area .card-base span {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 25px;
+}
+
+.card .card-area .card-base:hover span {
+    -webkit-line-clamp: 999;
+}
+
+.card .card-area .card-base .card-btn-base {
+    display: flex;
+    justify-content: right;
+}
+
+.card .card-area .card-base .card-btn {
+    width: auto;
+    font-family: "Poiret_One";
+    font-size: 18px;
+    cursor: pointer;
+    border: 0;
+    background: #f0f0f0;
+    box-shadow: 5px 5px 10px #00000020;
+    padding: 10px;
+}
+
+.card .card-area .card-base .card-btn:hover {
+    box-shadow: 5px 5px 15px #00000030;
+}
+
+.card .card-area .card-base .card-btn:active {
+    box-shadow: 2px 2px 4px #00000050;
+}

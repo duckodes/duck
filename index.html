@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/default.css">
     <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/card.css">
     <title>Duckode</title>
 </head>
 
@@ -34,12 +35,18 @@
                 home
             </div>
             <div class="navbtn">
+                topic
+            </div>
+            <div class="navbtn">
                 contact
             </div>
         </div>
         <div class="content">
             <div class="home">
                 <h1 class="title">Hello</h1>
+            </div>
+            <div class="card">
+                <div class="card-area"></div>
             </div>
             <div class="contact">
                 <h1>Contact</h1>
@@ -89,6 +96,9 @@
             scrollviewutils.cto('.home');
         });
         document.querySelectorAll('.navbtn')[1].addEventListener("click", () => {
+            scrollviewutils.cto('.card');
+        });
+        document.querySelectorAll('.navbtn')[2].addEventListener("click", () => {
             scrollviewutils.cto('.contact');
         });
     </script>
@@ -385,6 +395,13 @@
                 window.removeEventListener('scroll', sie);
             }
         }
+    </script>
+    <script>
+        index.gcard("Topic", "img/duck/duck_1024x_144p.png");
+        index.gcard("Topic", "img/duck/duck_1024x_144p.png");
+        index.gcard("Topic", "img/duck/duck_1024x_144p.png");
+        index.gcard("Topic", "img/duck/duck_1024x_144p.png");
+        index.gcard("Topic", "img/duck/duck_1024x_144p.png");
     </script>
 </body>
 

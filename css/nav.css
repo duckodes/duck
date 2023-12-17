@@ -21,3 +21,7 @@
     margin-right: 5px;
     cursor: pointer;
 }
+
+.navbtn:hover {
+    text-shadow: 3px 3px 7px #000000;
+}

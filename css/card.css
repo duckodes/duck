@@ -33,7 +33,29 @@
 }
 
 .card .card-area .card-base:hover {
-    box-shadow: 10px 10px 15px #00000050;
+    box-shadow: 5px 5px 10px #00000090;
+}
+
+.card .card-area .card-base::before {
+    content: "";
+    position: relative;
+    border: 1px solid transparent;
+    border-image: linear-gradient(to left, #00000000, #000000aa);
+    border-image-slice: 1;
+    transition: all 500ms ease-in-out;
+    border-radius: 8px;
+    width: 0;
+    margin-left: -100%;
+}
+
+.card .card-area .card-base:hover::before {
+    content: "";
+    position: relative;
+    border: 1px solid transparent;
+    border-image: linear-gradient(to right, #00000000, #000000aa);
+    border-image-slice: 1;
+    width: 200%;
+    margin-left: 0%;
 }
 
 .card .card-area .card-base span {

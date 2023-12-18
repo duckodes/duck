@@ -435,7 +435,7 @@ index = (function () {
     }
     return is;
   }
-  function gcard(t, i) {
+  function gcard(t, i, l) {
     const cardarea = document.querySelector('.card-area');
     const cardbase = document.createElement('div');
     cardbase.className = "card-base";
@@ -474,6 +474,13 @@ index = (function () {
           resolve(false);
         };
         img.src = src;
+      });
+    }
+    if (l !== null && l !== undefined && l.trim() !== '') {
+      cardbase.addEventListener("click", () => {
+        const a = document.createElement('a')
+        a.href = l;
+        a.click();
       });
     }
   }

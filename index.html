@@ -147,49 +147,57 @@
 
                 let name = document.getElementById("name");
                 let comment = document.getElementById("comment");
-                let comments = document.getElementById('comments');
+                let comments = document.getElementById("comments");
                 let btn_status = document.getElementById("btn-status");
+                let post = document.getElementById("post");
+                let reply = document.getElementById("reply");
+                let reply_x = document.getElementById("reply-x");
+                let showmore = document.getElementById("showmore");
 
-                const postatus = {
+                const status = {
                     private: 0,
                     public: 1,
-                    email: 2
+                    reply: 2,
+                    email: 3
                 };
+                let postatus = status.private;
                 let posting = false;
                 let postsize = 0;
 
-                document.getElementById("post").addEventListener('click', () => {
-                    if (index.status()) {
-                        post('comments/private/' + name.value + "?id=" + index.pID());
-                    } else {
-                        post('comments/public/' + name.value + "?id=" + index.pID());
-                    }
+                post.addEventListener('click', () => {
+                    POST_STATUSWITCH();
                 })
-                document.getElementById("showmore").addEventListener("click", () => {
+                showmore.addEventListener("click", () => {
                     if (maxpost < postsize) {
                         maxpost += 2;
                         comments.innerHTML = "";
-                        gpost();
+                        G_POST();
                     }
                     if (maxpost >= postsize) {
                         maxpost = postsize;
-                        document.getElementById("showmore").style.display = "none";
+                        showmore.style.display = "none";
                     }
                 });
                 btn_status.addEventListener("click", (e) => {
                     contextmenuutils.init(e, btn_status.parentElement, (b, c) => {
+                        c.style.paddingTop = "5px";
+                        c.style.paddingBottom = "5px";
+                        c.style.borderRadius = "5px";
                     });
                     contextmenuutils.addItem("private", (c) => {
-                        defaultset(c);
+                        defaultset(c, status.private);
                     });
                     contextmenuutils.addItem("public", (c) => {
-                        defaultset(c);
+                        defaultset(c, status.public);
                     });
                     contextmenuutils.addItem("email", (c) => {
-                        defaultset(c);
+                        defaultset(c, status.email);
                     });
-                    function defaultset(c) {
+                    function defaultset(c, s) {
                         c.addEventListener("click", () => {
+                            reply_x.click();
+                            postatus = s;
+                            BTN_STATUSWITCH();
                             contextmenuutils.remove();
                         });
                         c.addEventListener("mouseenter", () => {
@@ -200,8 +208,42 @@
                         });
                     }
                 });
+                function POST_STATUSWITCH() {
+                    switch (postatus) {
+                        case 0:
+                            POST('comments/private/' + name.value + "?id=" + index.pID());
+                            break;
+                        case 1:
+                            POST('comments/public/' + name.value + "?id=" + index.pID());
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                function BTN_STATUSWITCH() {
+                    switch (postatus) {
+                        case 0:
+                            btn_status.textContent = "private";
+                            btn_status.removeAttribute("style");
+                            break;
+                        case 1:
+                            btn_status.textContent = "public";
+                            btn_status.style.color = "rgb(0, 224, 138)";
+                            break;
+                        case 2:
+                            btn_status.textContent = "reply";
+                            btn_status.style.color = "#96C8C8";
+                            break;
+                        case 3:
+                            btn_status.textContent = "email";
+                            btn_status.style.color = "#6496C8";
+                            break;
+                        default:
+                            break;
+                    }
+                }
 
-                function post(path) {
+                function POST(path) {
                     validate()
                         .then((message) => {
                             if (!posting) {
@@ -213,7 +255,7 @@
                                         posting = false;
                                         comments.innerHTML = "";
 
-                                        gpost();
+                                        G_POST();
                                         name.value = "";
                                         comment.innerHTML = "";
                                     })
@@ -224,7 +266,7 @@
                             }
                         })
                 }
-                function replypost(e) {
+                function REPLY_POST(e) {
                     validate()
                         .then((message) => {
                             if (!posting) {
@@ -236,10 +278,10 @@
                                         posting = false;
                                         comments.innerHTML = "";
 
-                                        gpost();
+                                        G_POST();
                                         name.value = "";
                                         comment.innerHTML = "";
-                                        document.querySelector("#reply-x").click();
+                                        reply_x.click();
                                     })
                                     .catch((error) => {
                                         console.log(error);
@@ -292,8 +334,8 @@
                         }
                     });
                 }
-                gpost();
-                function gpost() {
+                G_POST();
+                function G_POST() {
                     let countpost = 0;
                     const dbref = ref(database);
                     get(child(dbref, 'comments/public/'))
@@ -305,7 +347,7 @@
                                     if (countpost > maxpost) {
                                         return;
                                     } else if (maxpost < postsize) {
-                                        document.getElementById("showmore").style.display = "";
+                                        showmore.style.display = "";
                                     }
                                     get(child(dbref, 'comments/public/' + e.key))
                                         .then((cmts) => {
@@ -332,7 +374,9 @@
                                                         btn.style.fontWeight = "900";
                                                         btn.addEventListener("click", () => {
 
-                                                            btn_status.style.visibility = "hidden";
+                                                            let restatus = postatus;
+                                                            postatus = status.reply;
+                                                            BTN_STATUSWITCH();
 
                                                             comment.focus();
 
@@ -345,21 +389,21 @@
                                                             comment.setAttribute('data-content', '𝙍𝙀𝙋𝙇𝙔 ＠ ″ ' +
                                                                 index.rcasc(e.key).replace(/a/g, '𝙖').replace(/A/g, '𝘼').replace(/b/g, '𝙗').replace(/B/g, '𝘽').replace(/c/g, '𝙘').replace(/C/g, '𝘾').replace(/d/g, '𝙙').replace(/D/g, '𝘿').replace(/e/g, '𝙚').replace(/E/g, '𝙀').replace(/f/g, '𝙛').replace(/F/g, '𝙁').replace(/g/g, '𝙜').replace(/G/g, '𝙂').replace(/h/g, '𝙝').replace(/H/g, '𝙃').replace(/i/g, '𝙞').replace(/I/g, '𝙄').replace(/j/g, '𝙟').replace(/J/g, '𝙅').replace(/k/g, '𝙠').replace(/K/g, '𝙆').replace(/l/g, '𝙡').replace(/L/g, '𝙇').replace(/m/g, '𝙢').replace(/M/g, '𝙈').replace(/n/g, '𝙣').replace(/N/g, '𝙉').replace(/o/g, '𝙤').replace(/O/g, '𝙊').replace(/p/g, '𝙥').replace(/P/g, '𝙋').replace(/q/g, '𝙦').replace(/Q/g, '𝙌').replace(/r/g, '𝙧').replace(/R/g, '𝙍').replace(/s/g, '𝙨').replace(/S/g, '𝙎').replace(/t/g, '𝙩').replace(/T/g, '𝙏').replace(/u/g, '𝙪').replace(/U/g, '𝙐').replace(/v/g, '𝙫').replace(/V/g, '𝙑').replace(/w/g, '𝙬').replace(/W/g, '𝙒').replace(/x/g, '𝙭').replace(/X/g, '𝙓').replace(/y/g, '𝙮').replace(/Y/g, '𝙔').replace(/z/g, '𝙯').replace(/Z/g, '𝙕').replace(/0/g, '０').replace(/1/g, '１').replace(/2/g, '２').replace(/3/g, '３').replace(/4/g, '４').replace(/5/g, '５').replace(/6/g, '６').replace(/7/g, '７').replace(/8/g, '８').replace(/9/g, '９') +
                                                                 ' ″ ➠ ' + c.val().replace(/a/g, '𝙖').replace(/A/g, '𝘼').replace(/b/g, '𝙗').replace(/B/g, '𝘽').replace(/c/g, '𝙘').replace(/C/g, '𝘾').replace(/d/g, '𝙙').replace(/D/g, '𝘿').replace(/e/g, '𝙚').replace(/E/g, '𝙀').replace(/f/g, '𝙛').replace(/F/g, '𝙁').replace(/g/g, '𝙜').replace(/G/g, '𝙂').replace(/h/g, '𝙝').replace(/H/g, '𝙃').replace(/i/g, '𝙞').replace(/I/g, '𝙄').replace(/j/g, '𝙟').replace(/J/g, '𝙅').replace(/k/g, '𝙠').replace(/K/g, '𝙆').replace(/l/g, '𝙡').replace(/L/g, '𝙇').replace(/m/g, '𝙢').replace(/M/g, '𝙈').replace(/n/g, '𝙣').replace(/N/g, '𝙉').replace(/o/g, '𝙤').replace(/O/g, '𝙊').replace(/p/g, '𝙥').replace(/P/g, '𝙋').replace(/q/g, '𝙦').replace(/Q/g, '𝙌').replace(/r/g, '𝙧').replace(/R/g, '𝙍').replace(/s/g, '𝙨').replace(/S/g, '𝙎').replace(/t/g, '𝙩').replace(/T/g, '𝙏').replace(/u/g, '𝙪').replace(/U/g, '𝙐').replace(/v/g, '𝙫').replace(/V/g, '𝙑').replace(/w/g, '𝙬').replace(/W/g, '𝙒').replace(/x/g, '𝙭').replace(/X/g, '𝙓').replace(/y/g, '𝙮').replace(/Y/g, '𝙔').replace(/z/g, '𝙯').replace(/Z/g, '𝙕').replace(/0/g, '０').replace(/1/g, '１').replace(/2/g, '２').replace(/3/g, '３').replace(/4/g, '４').replace(/5/g, '５').replace(/6/g, '６').replace(/7/g, '７').replace(/8/g, '８').replace(/9/g, '９'));
-                                                            document.querySelector("#post").style.display = "none";
+                                                            post.style.display = "none";
 
-                                                            const btnReply = document.querySelector("#reply");
-                                                            const btnCancel = document.querySelector("#reply-x");
-                                                            btnReply.style.display = "";
-                                                            btnReply.addEventListener("click", () => {
-                                                                replypost(e);
+
+                                                            reply.style.display = "";
+                                                            reply.addEventListener("click", () => {
+                                                                REPLY_POST(e);
                                                             });
-                                                            btnCancel.style.display = "";
-                                                            btnCancel.addEventListener("click", () => {
-                                                                btnStatus.style.visibility = "";
+                                                            reply_x.style.display = "";
+                                                            reply_x.addEventListener("click", () => {
+                                                                postatus = restatus;
+                                                                BTN_STATUSWITCH();
 
-                                                                document.querySelector("#post").style.display = "";
-                                                                btnReply.style.display = "none";
-                                                                btnCancel.style.display = "none";
+                                                                post.style.display = "";
+                                                                reply.style.display = "none";
+                                                                reply_x.style.display = "none";
                                                                 comment.setAttribute('data-content', "comments..");
                                                             });
                                                         });
@@ -412,7 +456,7 @@
                                                         if (document.getElementById(e.key)) {
                                                             document.getElementById(e.key).removeAttribute('id');
                                                         }
-                                                        document.getElementById("comments").childNodes.forEach(element => {
+                                                        comments.childNodes.forEach(element => {
                                                             if (!element.contains(element.querySelector('.replys'))) {
                                                                 element.childNodes.forEach(e => {
                                                                     if (e.id === "clpse") {
@@ -437,7 +481,7 @@
                                 h6.innerText = "none comments";
                                 h6.style.opacity = "0.5";
                                 comments.appendChild(h6);
-                                document.getElementById("showmore").style.display = "none";
+                                showmore.style.display = "none";
                             }
                         })
                 }

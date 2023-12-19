@@ -1,11 +1,6 @@
 index = (function () {
   init();
-  let active = true;
-  function status() {
-    return active;
-  }
   return {
-    status: status,
     pID: pID,
     rcasc: rcasc,
     gcard: gcard
@@ -408,19 +403,6 @@ index = (function () {
       }
       return false;
     }
-
-    const pbtn = document.getElementById("btn-status");
-    pbtn.addEventListener("click", () => {
-      if (!active) {
-        pbtn.textContent = "private";
-        pbtn.removeAttribute("style");
-        active = true;
-      } else {
-        pbtn.textContent = "public";
-        pbtn.style.color = "rgb(0, 224, 138)";
-        active = false;
-      }
-    });
   }
   function pID() {
     const now = new Date();

@@ -209,3 +209,30 @@ body {
     user-select: none;
     cursor: pointer;
 }
+
+.error {
+    border: 1px solid #d93025;
+    border-radius: 3px;
+}
+
+.error+#error-name-txt {
+    display: block;
+}
+
+.error+#error-comment-txt {
+    display: block;
+}
+
+#error-name-txt {
+    font-size: 12px;
+    color: #d93025;
+    text-align: left;
+    display: none;
+}
+
+#error-comment-txt {
+    font-size: 12px;
+    color: #d93025;
+    text-align: left;
+    display: none;
+}

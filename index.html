@@ -21,6 +21,7 @@
     <link rel="apple-touch-icon" sizes="152x152" href="img/duck/duck_152x_144p.png">
     <link rel="apple-touch-icon" sizes="180x180" href="img/duck/duck_180x_144p.png">
     <link rel="stylesheet" href="https://lib.duckode.com/css/font-face.css">
+    <link rel="stylesheet" href="https://lib.duckode.com/css/contextmenuutils.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/default.css">
     <link rel="stylesheet" href="css/nav.css">
@@ -113,6 +114,7 @@
     <script>
         motionbackground.initdotliner('#00000070', '#00000010');
     </script>
+    <script src="https://lib.duckode.com/js/contextmenuutils.min.js"></script>
     <script src="js/index.js"></script>
     <script type="module">
         // Import the functions you need from the SDKs you need
@@ -124,12 +126,10 @@
 
         window.addEventListener('scroll', sie);
         function sie() {
-            let initsie = false;
-            let posting = false;
+            let init = false;
             let maxpost = 2;
-            let postsize = 0;
 
-            if (scrollviewutils.sie("#comments") && !initsie) {
+            if (scrollviewutils.sie("#comments") && !init) {
                 // Your web app's Firebase configuration
                 const firebaseConfig = {
                     apiKey: "AIzaSyA8hXpj7Jqo84IYASvibOT46r71WMSbN88",
@@ -144,11 +144,19 @@
                 const app = initializeApp(firebaseConfig);
 
                 const database = getDatabase();
-                let sizef = 0;
 
                 let name = document.getElementById("name");
                 let comment = document.getElementById("comment");
                 let comments = document.getElementById('comments');
+                let btn_status = document.getElementById("btn-status");
+
+                const postatus = {
+                    private: 0,
+                    public: 1,
+                    email: 2
+                };
+                let posting = false;
+                let postsize = 0;
 
                 document.getElementById("post").addEventListener('click', () => {
                     if (index.status()) {
@@ -161,11 +169,35 @@
                     if (maxpost < postsize) {
                         maxpost += 2;
                         comments.innerHTML = "";
-                        repost();
+                        gpost();
                     }
                     if (maxpost >= postsize) {
                         maxpost = postsize;
                         document.getElementById("showmore").style.display = "none";
+                    }
+                });
+                btn_status.addEventListener("click", (e) => {
+                    contextmenuutils.init(e, btn_status.parentElement, (b, c) => {
+                    });
+                    contextmenuutils.addItem("private", (c) => {
+                        defaultset(c);
+                    });
+                    contextmenuutils.addItem("public", (c) => {
+                        defaultset(c);
+                    });
+                    contextmenuutils.addItem("email", (c) => {
+                        defaultset(c);
+                    });
+                    function defaultset(c) {
+                        c.addEventListener("click", () => {
+                            contextmenuutils.remove();
+                        });
+                        c.addEventListener("mouseenter", () => {
+                            c.style.background = "#202020";
+                        });
+                        c.addEventListener("mouseleave", () => {
+                            c.style.background = "";
+                        });
                     }
                 });
 
@@ -181,7 +213,7 @@
                                         posting = false;
                                         comments.innerHTML = "";
 
-                                        repost();
+                                        gpost();
                                         name.value = "";
                                         comment.innerHTML = "";
                                     })
@@ -192,8 +224,76 @@
                             }
                         })
                 }
-                repost();
-                function repost() {
+                function replypost(e) {
+                    validate()
+                        .then((message) => {
+                            if (!posting) {
+                                set(ref(database, 'comments/public/' + e.key + '/' + name.value + "?id=" + index.pID()), {
+                                    comment: comment.innerHTML,
+                                })
+                                    .then(() => {
+                                        alert("Post Successed");
+                                        posting = false;
+                                        comments.innerHTML = "";
+
+                                        gpost();
+                                        name.value = "";
+                                        comment.innerHTML = "";
+                                        document.querySelector("#reply-x").click();
+                                    })
+                                    .catch((error) => {
+                                        console.log(error);
+                                    })
+                                posting = true;
+                            }
+                        })
+                }
+                function validate() {
+                    function name_checker(t) {
+                        document.getElementById("error-name-txt").innerText = t;
+                        name.classList.add('error');
+                        name.addEventListener("keyup", () => {
+                            if (!/^\s+$/.test(name.value)) {
+                                name.classList.remove('error');
+                            }
+                            validate();
+                        });
+                    }
+                    function comment_checker(t) {
+                        document.getElementById("error-comment-txt").innerText = t;
+                        comment.style.border = "1px solid #d93025";
+                        comment.classList.add('error');
+                        comment.addEventListener("keyup", () => {
+                            if (!/^\s+$/.test(comment.value)) {
+                                comment.classList.remove('error');
+                                comment.style.border = "";
+                            }
+                            validate();
+                        });
+                    }
+                    return new Promise((resolve, reject) => {
+                        if (/^\s+$/.test(comment.textContent)) {
+                            comment_checker("comment cannot consist solely of spaces");
+                        } else if (comment.textContent.trim() === "") {
+                            comment_checker("comment cannot be blank");
+                        }
+                        if (/^\s+$/.test(name.value)) {
+                            name_checker("name cannot consist solely of spaces");
+                        } else if (name.value.includes('?id=')) {
+                            name_checker('name cannot include "?id="');
+                        } else if (name.value.trim() === "") {
+                            name_checker("name cannot be blank");
+                        }
+                        if (comment.textContent.trim() !== "" &&
+                            !/^\s+$/.test(name.value) &&
+                            !name.value.includes('?id=') &&
+                            name.value.trim() !== "") {
+                            resolve("Inputs are valid");
+                        }
+                    });
+                }
+                gpost();
+                function gpost() {
                     let countpost = 0;
                     const dbref = ref(database);
                     get(child(dbref, 'comments/public/'))
@@ -232,8 +332,7 @@
                                                         btn.style.fontWeight = "900";
                                                         btn.addEventListener("click", () => {
 
-                                                            const btnStatus = document.querySelector("#btn-status");
-                                                            btnStatus.style.visibility = "hidden";
+                                                            btn_status.style.visibility = "hidden";
 
                                                             comment.focus();
 
@@ -342,76 +441,7 @@
                             }
                         })
                 }
-                function validate() {
-                    function name_checker(t) {
-                        document.getElementById("error-name-txt").innerText = t;
-                        name.classList.add('error');
-                        name.addEventListener("keyup", () => {
-                            if (!/^\s+$/.test(name.value)) {
-                                name.classList.remove('error');
-                            }
-                        });
-                    }
-                    function comment_checker(t) {
-                        document.getElementById("error-comment-txt").innerText = t;
-                        comment.classList.add('error');
-                        comment.addEventListener("keyup", () => {
-                            if (!/^\s+$/.test(comment.value)) {
-                                comment.classList.remove('error');
-                            }
-                        });
-                    }
-                    return new Promise((resolve, reject) => {
-                        if (comment.textContent.trim() === "") {
-                            comment_checker("comment cannot be blank");
-                        }
-                        if (/^\s+$/.test(name.value)) {
-                            name_checker("name cannot consist solely of spaces");
-                        } else if (name.value.includes('?id=')) {
-                            name_checker('name cannot include "?id="');
-                        } else if (name.value.trim() === "") {
-                            name_checker("name cannot be blank");
-                        }
-                        if (comment.textContent.trim() !== "" &&
-                            !/^\s+$/.test(name.value) &&
-                            !name.value.includes('?id=') &&
-                            name.value.trim() !== "") {
-                            resolve("Inputs are valid");
-                        }
-                    });
-                }
-
-                function replypost(e) {
-                    if (/^\s+$/.test(name.value)) {
-                        return alert('Please enter a name using letters and numbers');
-                    } else if (name.value.trim() === "") {
-                        return alert('Please input your name');
-                    } else if (comment.textContent.trim() === "") {
-                        return alert('Please input comment');
-                    } else if (name.value.includes('?id=')) {
-                        return alert('error cannot include "?id="');
-                    }
-                    if (!posting) {
-                        set(ref(database, 'comments/public/' + e.key + '/' + name.value + "?id=" + index.pID()), {
-                            comment: comment.innerHTML,
-                        })
-                            .then(() => {
-                                alert("Post Successed");
-                                posting = false;
-                                comments.innerHTML = "";
-
-                                repost();
-                                name.value = "";
-                                comment.innerHTML = "";
-                                document.querySelector("#reply-x").click();
-                            })
-                            .catch((error) => {
-                                console.log(error);
-                            })
-                        posting = true;
-                    }
-                }
-                initsie = true;
+                init = true;
                 window.removeEventListener('scroll', sie);
             }
         }

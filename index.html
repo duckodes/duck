@@ -115,6 +115,8 @@
         motionbackground.initdotliner('#00000070', '#00000010');
     </script>
     <script src="https://lib.duckode.com/js/contextmenuutils.min.js"></script>
+    <script src="https://lib.duckode.com/js/dateutils.min.js"></script>
+    <script src="js/clickutils.js"></script>
     <script src="js/index.js"></script>
     <script type="module">
         // Import the functions you need from the SDKs you need
@@ -122,7 +124,7 @@
         // TODO: Add SDKs for Firebase products that you want to use
         // https://firebase.google.com/docs/web/setup#available-libraries
 
-        import { getDatabase, ref, child, get, set, update, remove, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, child, get, set, update, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
         window.addEventListener('scroll', sie);
         function sie() {
@@ -164,9 +166,9 @@
                 let posting = false;
                 let postsize = 0;
 
-                post.addEventListener('click', () => {
+                clickutils.click(post, 0, () => {
                     POST_STATUSWITCH();
-                })
+                });
                 showmore.addEventListener("click", () => {
                     if (maxpost < postsize) {
                         maxpost += 2;
@@ -211,10 +213,10 @@
                 function POST_STATUSWITCH() {
                     switch (postatus) {
                         case 0:
-                            POST('comments/private/' + name.value + "?id=" + index.pID());
+                            POST('comments/private/' + name.value + "?id=" + dateutils.ToHash());
                             break;
                         case 1:
-                            POST('comments/public/' + name.value + "?id=" + index.pID());
+                            POST('comments/public/' + name.value + "?id=" + dateutils.ToHash());
                             break;
                         default:
                             break;
@@ -270,7 +272,7 @@
                     validate()
                         .then((message) => {
                             if (!posting) {
-                                set(ref(database, 'comments/public/' + e.key + '/' + name.value + "?id=" + index.pID()), {
+                                set(ref(database, 'comments/public/' + e.key + '/' + name.value + "?id=" + dateutils.ToHash()), {
                                     comment: comment.innerHTML,
                                 })
                                     .then(() => {
@@ -393,7 +395,7 @@
 
 
                                                             reply.style.display = "";
-                                                            reply.addEventListener("click", () => {
+                                                            clickutils.nClick(reply, 0).then(() => {
                                                                 REPLY_POST(e);
                                                             });
                                                             reply_x.style.display = "";

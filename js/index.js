@@ -1,7 +1,6 @@
 index = (function () {
   init();
   return {
-    pID: pID,
     rcasc: rcasc,
     gcard: gcard
   };
@@ -404,12 +403,6 @@ index = (function () {
       return false;
     }
   }
-  function pID() {
-    const now = new Date();
-    const uniqueCode = `${now.getFullYear()}${now.getMonth()}${now.getDate()}${now.getHours()}${now.getMinutes()}${now.getSeconds()}${now.getMilliseconds()}${Math.random() * 10000}`;
-    const hashedCode = btoa(uniqueCode).replace(/=/g, '');
-    return hashedCode;
-  }
   function rcasc(is) {
     const index = is.indexOf("?id=");
     if (index !== -1) {
@@ -459,7 +452,7 @@ index = (function () {
       });
     }
     if (l !== null && l !== undefined && l.trim() !== '') {
-      cardbase.addEventListener("click", () => {
+      clickutils.nClick(cardbase, 0).then(() => {
         const a = document.createElement('a')
         a.href = l;
         a.click();

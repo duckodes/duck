@@ -26,9 +26,9 @@ var clickutils = (function () {
             start = true;
             function touchEnd() {
                 start = false;
-                window.removeEventListener('touchend', touchEnd);
+                window.removeEventListener('touchmove', touchEnd);
             }
-            window.addEventListener('touchend', touchEnd);
+            window.addEventListener('touchmove', touchEnd);
         });
         element.addEventListener("touchend", () => {
             if (start) {
@@ -60,9 +60,9 @@ var clickutils = (function () {
                 start = true;
                 function touchEnd() {
                     start = false;
-                    window.removeEventListener('touchend', touchEnd);
+                    window.removeEventListener('touchmove', touchEnd);
                 }
-                window.addEventListener('touchend', touchEnd);
+                window.addEventListener('touchmove', touchEnd);
             });
             element.addEventListener("touchend", () => {
                 if (start) {

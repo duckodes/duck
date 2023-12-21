@@ -452,7 +452,7 @@ index = (function () {
       });
     }
     if (l !== null && l !== undefined && l.trim() !== '') {
-      clickutils.nClick(cardbase, 0).then(() => {
+      clickutils.click(cardbase, 0, () => {
         const a = document.createElement('a')
         a.href = l;
         a.click();

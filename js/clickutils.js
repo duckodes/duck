@@ -22,6 +22,19 @@ var clickutils = (function () {
                 func();
             }
         });
+        element.addEventListener("touchstart", (e) => {
+            start = true;
+            function touchEnd() {
+                start = false;
+                window.removeEventListener('touchend', touchEnd);
+            }
+            window.addEventListener('touchend', touchEnd);
+        });
+        element.addEventListener("touchend", () => {
+            if (start) {
+                func();
+            }
+        });
     }
     function nClick(element, button) {
         return new Promise((resolve) => {
@@ -39,6 +52,19 @@ var clickutils = (function () {
                 window.addEventListener('mouseup', mouseUp);
             });
             element.addEventListener("mouseup", () => {
+                if (start) {
+                    resolve();
+                }
+            });
+            element.addEventListener("touchstart", (e) => {
+                start = true;
+                function touchEnd() {
+                    start = false;
+                    window.removeEventListener('touchend', touchEnd);
+                }
+                window.addEventListener('touchend', touchEnd);
+            });
+            element.addEventListener("touchend", () => {
                 if (start) {
                     resolve();
                 }

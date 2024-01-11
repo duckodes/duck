@@ -181,10 +181,10 @@
                     }
                 });
                 btn_status.addEventListener("click", (e) => {
-                    contextmenuutils.init(e, btn_status.parentElement, (b, c) => {
+                    contextmenuutils.init(btn_status.parentElement, (b, c) => {
                         c.style.paddingTop = "5px";
                         c.style.paddingBottom = "5px";
-                        c.style.borderRadius = "5px";
+                        ToMouse(c)
                     });
                     contextmenuutils.addItem("private", (c) => {
                         defaultset(c, status.private);
@@ -208,6 +208,10 @@
                         c.addEventListener("mouseleave", () => {
                             c.style.background = "";
                         });
+                    }
+                    function ToMouse(c) {
+                        c.style.left = (e.clientX) + "px";
+                        c.style.top = (e.clientY) + "px";
                     }
                 });
                 function POST_STATUSWITCH() {

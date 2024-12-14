@@ -108,7 +108,7 @@
     <script src="https://lib.duckode.com/js/dynamicontent.min.js"></script>
     <script>
         dynamicontent.inititle(["Duckode", "Hello", "Quack, quack!"], document.querySelector('title'));
-        dynamicontent.init(["Hello", "Duckode", "Quack, quack!"], document.querySelector('h1'), '#36f', 5000);
+        dynamicontent.init(["Hello, I'm Byteme Bear!", "Welcome!"], document.querySelector('h1'), '#36f', 5000);
     </script>
     <script src="https://lib.duckode.com/js/motionbackground.min.js"></script>
     <script>
@@ -118,6 +118,7 @@
     <script src="https://lib.duckode.com/js/dateutils.min.js"></script>
     <script src="js/clickutils.js"></script>
     <script src="js/index.js"></script>
+    <script src="module/comments.js" type="module"></script>
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -217,10 +218,10 @@
                 function POST_STATUSWITCH() {
                     switch (postatus) {
                         case 0:
-                            POST('comments/private/' + name.value + "?id=" + dateutils.ToHash());
+                            POST('duckode/comments/private/' + name.value + "?id=" + dateutils.ToHash());
                             break;
                         case 1:
-                            POST('comments/public/' + name.value + "?id=" + dateutils.ToHash());
+                            POST('duckode/comments/public/' + name.value + "?id=" + dateutils.ToHash());
                             break;
                         default:
                             break;
@@ -276,7 +277,7 @@
                     validate()
                         .then((message) => {
                             if (!posting) {
-                                set(ref(database, 'comments/public/' + e.key + '/' + name.value + "?id=" + dateutils.ToHash()), {
+                                set(ref(database, 'duckode/comments/public/' + e.key + '/' + name.value + "?id=" + dateutils.ToHash()), {
                                     comment: comment.innerHTML,
                                 })
                                     .then(() => {
@@ -344,7 +345,7 @@
                 function G_POST() {
                     let countpost = 0;
                     const dbref = ref(database);
-                    get(child(dbref, 'comments/public/'))
+                    get(child(dbref, 'duckode/comments/public/'))
                         .then((cmts) => {
                             if (cmts.exists()) {
                                 postsize = cmts.size;
@@ -355,7 +356,7 @@
                                     } else if (maxpost < postsize) {
                                         showmore.style.display = "";
                                     }
-                                    get(child(dbref, 'comments/public/' + e.key))
+                                    get(child(dbref, 'duckode/comments/public/' + e.key))
                                         .then((cmts) => {
                                             if (cmts.exists()) {
                                                 cmts.forEach(c => {
@@ -433,7 +434,7 @@
                                                         });
                                                         container.appendChild(clpsebtn);
                                                     } else {
-                                                        get(child(dbref, 'comments/public/' + e.key + "/" + c.key))
+                                                        get(child(dbref, 'duckode/comments/public/' + e.key + "/" + c.key))
                                                             .then((cmts) => {
                                                                 if (cmts.exists()) {
                                                                     cmts.forEach(r => {
@@ -497,6 +498,7 @@
         }
     </script>
     <script>
+        index.gcard("Research", "img/research/research_500x500_72ppi.png", "https://research.duckode.com");
         index.gcard("Unity Script Library", "img/csharplib/topic-csharplib_1024x_144ppi.png", "https://topic-csharplib.duckode.com");
         index.gcard(".EXE Game (Unity)", "img/windowgame(unity)/windowgame(unity)_1024x_72ppi.png", "https://drive.google.com/drive/folders/1Y2YbJTjPOvvKPhIOK-HLZuO4djRawdMp?usp=sharing");
     </script>

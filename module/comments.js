@@ -58,10 +58,10 @@ const comments = (() => {
                             ToMouse(c)
                         });
                         contextmenuutils.addItem("選擇留言方式", (c) => {});
-                        contextmenuutils.addItem("private", (c) => {
+                        contextmenuutils.addItem("私信", (c) => {
                             defaultset(c, status.private);
                         });
-                        contextmenuutils.addItem("public", (c) => {
+                        contextmenuutils.addItem("公開", (c) => {
                             defaultset(c, status.public);
                         });
                         function defaultset(c, s) {
@@ -122,7 +122,7 @@ const comments = (() => {
                                         comment: comment.innerHTML,
                                     })
                                         .then(() => {
-                                            alert("Post Successed");
+                                            alert("感謝! 留言傳送~~");
                                             posting = false;
                                             comments.innerHTML = "";
 
@@ -145,7 +145,7 @@ const comments = (() => {
                                         comment: comment.innerHTML,
                                     })
                                         .then(() => {
-                                            alert("Post Successed");
+                                            alert("感謝! 回覆傳送~~");
                                             posting = false;
                                             comments.innerHTML = "";
 

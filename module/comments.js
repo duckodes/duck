@@ -3,15 +3,6 @@ import { getDatabase, onValue, ref, child, get, set, remove } from "https://www.
 import fetcher from "./fetcher.js";
 
 const comments = (() => {
-    const getKeysArray = () => {
-        const keysArray = [];
-        for (let i = 0; i < localStorage.length; i++) {
-            if (localStorage.getItem(`ANONYMOUS_USER_DATA_${i}`) !== null) {
-                keysArray.push(localStorage.getItem(`ANONYMOUS_USER_DATA_${i}`));
-            }
-        }
-        return keysArray;
-    }
     function render(name, comment) {
         const commentsContainer = document.createElement('div');
         commentsContainer.className = 'comments-container';
@@ -27,7 +18,7 @@ const comments = (() => {
         commentsContainer.appendChild(content);
         return commentsContainer;
     }
-    function renderDeleteButton(database, dataKeys, i, commentsContainer) {
+    function renderDeleteButton(database, dataKeys, i, commentsContainer, localUserData) {
         const buttonContainer = document.createElement('div');
         buttonContainer.className = 'button-container';
         const button = document.createElement('button');
@@ -37,6 +28,11 @@ const comments = (() => {
         button.addEventListener('click', () => {
             if (confirm('確定要刪除?')) {
                 remove(ref(database, `duckode/comments/public/${dataKeys[i]}`));
+                let index = localUserData.indexOf(dataKeys[i]);
+                if (index !== -1) {
+                    localUserData.splice(index, 1);
+                }
+                localStorage.setItem('ANONYMOUS_USER_DATA', JSON.stringify(localUserData));
             }
         });
     }
@@ -54,8 +50,9 @@ const comments = (() => {
                     const comment = dataVals[i];
                     const commentsContainer = render(name, comment);
                     setTimeout(() => {
-                        getKeysArray().includes(dataKeys[i]) && renderDeleteButton(database, dataKeys, i, commentsContainer);
-                    }, 0);
+                        let localUserData = JSON.parse(localStorage.getItem('ANONYMOUS_USER_DATA')) || [];
+                        localUserData.includes(dataKeys[i]) && renderDeleteButton(database, dataKeys, i, commentsContainer, localUserData);
+                    }, 200);
                 }
             }
         });
@@ -70,7 +67,7 @@ const comments = (() => {
                     name.classList.remove('error');
                     name.style.border = "";
                 }
-                validate();
+                validate(name, textarea, errorNameTxt, errorTextareaTxt);
             });
         }
         function comment_checker(t) {
@@ -82,7 +79,7 @@ const comments = (() => {
                     textarea.classList.remove('error');
                     textarea.style.border = "";
                 }
-                validate();
+                validate(name, textarea, errorNameTxt, errorTextareaTxt);
             });
         }
         return new Promise((resolve, reject) => {
@@ -107,13 +104,13 @@ const comments = (() => {
         });
     }
     function postPublicData(database, name, textarea, errorNameTxt, errorTextareaTxt) {
-        const postCount = localStorage.getItem('postCount') === null ? 0 : localStorage.getItem('postCount');
+        let localUserData = JSON.parse(localStorage.getItem('ANONYMOUS_USER_DATA')) || [];
         const hash = dateutils.ToHash();
         const dataRef = ref(database, `duckode/comments/public/${name.value}?id=${hash}`);
         validate(name, textarea, errorNameTxt, errorTextareaTxt).then((message) => {
             set(dataRef, textarea.innerHTML);
-            localStorage.setItem(`ANONYMOUS_USER_DATA_${postCount}`, `${name.value}?id=${hash}`);
-            localStorage.setItem('postCount', parseInt(postCount) + 1);
+            localUserData.push(`${name.value}?id=${hash}`);
+            localStorage.setItem('ANONYMOUS_USER_DATA', JSON.stringify(localUserData));
             alert(`感謝 ${name.value} 的留言~~😊❤️❤️`);
             name.value = "";
             textarea.textContent = "";
@@ -136,12 +133,8 @@ const comments = (() => {
 
             const name = document.getElementById('name');
             const textarea = document.getElementById('textarea');
-            const comments = document.getElementById("comments");
             const btnStatus = document.getElementById('btn-status');
             const post = document.getElementById('post');
-            const reply = document.getElementById('reply');
-            const reply_x = document.getElementById('reply-x');
-            const showmore = document.getElementById('showmore');
             const errorNameTxt = document.getElementById('error-name-txt');
             const errorTextareaTxt = document.getElementById('error-textarea-txt');
 

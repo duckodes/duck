@@ -102,7 +102,7 @@ body {
     width: 100%;
 }
 
-#comment {
+#textarea {
     align-self: center;
     width: 70%;
     height: auto;
@@ -114,7 +114,7 @@ body {
     border: 1px solid #00000050;
 }
 
-#comment:empty::before {
+#textarea:empty::before {
     content: attr(data-content);
     opacity: 0.5;
     cursor: text;
@@ -134,12 +134,12 @@ body {
 #btn-status {
     width: auto;
     font-weight: 900;
-    color: red;
+    color: green;
     border: 0;
     cursor: pointer;
 }
 
-.comment-tools {
+.textarea-tools {
     display: flex;
     align-self: center;
     justify-content: center;
@@ -160,12 +160,12 @@ body {
     background-color: #00000020;
 }
 
-#comment:focus+.comment-tools {
+#textarea:focus+.textarea-tools {
     background-color: white;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
 }
 
-.comment-tools .tools-blod {
+.textarea-tools .tools-blod {
     width: 30px;
     height: 30px;
     font-size: larger;
@@ -175,11 +175,11 @@ body {
     cursor: pointer;
 }
 
-.comment-tools .tools-blod:active {
+.textarea-tools .tools-blod:active {
     background-color: #00000070;
 }
 
-.comment-tools .tools-i {
+.textarea-tools .tools-i {
     width: 30px;
     height: 30px;
     font-size: larger;
@@ -189,11 +189,11 @@ body {
     cursor: pointer;
 }
 
-.comment-tools .tools-i:active {
+.textarea-tools .tools-i:active {
     background-color: #00000070;
 }
 
-.comment-tools .tools-size {
+.textarea-tools .tools-size {
     width: 30px;
     height: 30px;
     font-size: larger;
@@ -203,11 +203,11 @@ body {
     cursor: pointer;
 }
 
-.comment-tools .tools-size:active {
+.textarea-tools .tools-size:active {
     background-color: #00000070;
 }
 
-.comment-tools .tools-size-num {
+.textarea-tools .tools-size-num {
     width: 30px;
     height: 30px;
     font-size: larger;
@@ -226,7 +226,7 @@ body {
     display: block;
 }
 
-.error+#error-comment-txt {
+.error+#error-textarea-txt {
     display: block;
 }
 
@@ -235,11 +235,70 @@ body {
     color: #d93025;
     text-align: left;
     display: none;
+    margin-left: 10%;
 }
 
-#error-comment-txt {
+#error-textarea-txt {
     font-size: 12px;
     color: #d93025;
     text-align: left;
     display: none;
+    margin-left: 10%;
+}
+
+#comments {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 30px;
+}
+
+#comments>* {
+    margin-top: 10px;
+}
+
+#comments>.comments-container {
+    width: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    min-width: 150px;
+}
+
+#comments>.comments-container>.comments-name {
+    font-size: 20px;
+    word-break: break-word;
+    font-weight: bolder;
+    padding: 5px;
+    margin-left: 10px;
+    border: 1px solid #e0e0e0;
+}
+
+#comments>.comments-container>.comments-content {
+    width: 100%;
+    word-break: break-word;
+    background-color: #e2e2e2;
+}
+
+#comments>.comments-container>.button-container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+#comments>.comments-container>.button-container>button {
+    border: 0px solid #ffffff;
+    padding: 10px;
+}
+
+#comments>.comments-container>.button-container>button:hover {
+    background-color: #f36f6f;
+}
+
+#comments>.comments-container>.button-container>button:active {
+    background-color: #db5b5b;
 }

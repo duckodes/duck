@@ -1,11 +1,11 @@
-index = (function () {
+const index = (function () {
   init();
   return {
     rcasc: rcasc,
     gcard: gcard
   };
   function init() {
-    document.querySelector("#comment").setAttribute('data-content', 'comments..');
+    document.querySelector("#textarea").setAttribute('data-content', 'comments..');
 
     homeprefix();
     window.addEventListener('resize', homeprefix);
@@ -19,9 +19,9 @@ index = (function () {
     let isMouseDown = false;
     let lastExecution = 0;
     const interval = 100;
-    document.querySelector('#comment').addEventListener("input", () => {
-      if (document.querySelector('#comment').textContent === "" || document.querySelector('#comment').textContent === null) {
-        document.querySelector('#comment').innerHTML = "";
+    document.querySelector('#textarea').addEventListener("input", () => {
+      if (document.querySelector('#textarea').textContent === "" || document.querySelector('#textarea').textContent === null) {
+        document.querySelector('#textarea').innerHTML = "";
       }
     });
     document.querySelector('.tools-size.plus').addEventListener("mousedown", () => {
@@ -114,7 +114,7 @@ index = (function () {
         selection.removeAllRanges();
         selection.addRange(newRange);
 
-        document.querySelector('#comment').childNodes.forEach(span => {
+        document.querySelector('#textarea').childNodes.forEach(span => {
           if (span.innerText === "" || null) {
             span.remove();
           }
@@ -138,9 +138,9 @@ index = (function () {
       }
     });
 
-    document.querySelectorAll('.comment-tools > *').forEach(c => {
+    document.querySelectorAll('.textarea-tools > *').forEach(c => {
       c.addEventListener('click', function () {
-        document.querySelectorAll('.comment-tools > *').forEach(otherc => {
+        document.querySelectorAll('.textarea-tools > *').forEach(otherc => {
           if (otherc !== this) {
             //otherc.classList.remove('tools-active');
           }
@@ -154,16 +154,16 @@ index = (function () {
         }
 
         if (this.classList.contains('tools-blod') && this.classList.contains('tools-active')) {
-          if (!document.querySelector('#comment').contains(document.querySelector("strong"))) {
-            document.querySelector('#comment').appendChild(document.createElement("strong"));
+          if (!document.querySelector('#textarea').contains(document.querySelector("strong"))) {
+            document.querySelector('#textarea').appendChild(document.createElement("strong"));
           }
           moveTextInsideStrong();
         } else if (this.classList.contains('tools-blod') && !this.classList.contains('tools-active')) {
           moveTextOutsideStrong();
         }
         if (this.classList.contains('tools-i') && this.classList.contains('tools-active')) {
-          if (!document.querySelector('#comment').contains(document.querySelector("em"))) {
-            document.querySelector('#comment').appendChild(document.createElement("em"));
+          if (!document.querySelector('#textarea').contains(document.querySelector("em"))) {
+            document.querySelector('#textarea').appendChild(document.createElement("em"));
           }
           moveTextInsideEm();
         } else if (this.classList.contains('tools-i') && !this.classList.contains('tools-active')) {
@@ -209,7 +209,7 @@ index = (function () {
         selection.removeAllRanges();
         selection.addRange(newRange);
 
-        document.querySelector('#comment').childNodes.forEach(strong => {
+        document.querySelector('#textarea').childNodes.forEach(strong => {
           if (strong.innerText === "" || null) {
             strong.remove();
           }
@@ -222,7 +222,7 @@ index = (function () {
         let range = selection.getRangeAt(0);
 
         let selectedText = range.toString();
-        let strongElements = document.querySelectorAll('#comment strong');
+        let strongElements = document.querySelectorAll('#textarea strong');
 
         strongElements.forEach(strongElement => {
           let strongRange = document.createRange();
@@ -278,7 +278,7 @@ index = (function () {
         let startNode = range.startContainer;
         let endNode = range.endContainer;
 
-        let strongElements = document.querySelectorAll('#comment strong');
+        let strongElements = document.querySelectorAll('#textarea strong');
 
         for (let i = 0; i < strongElements.length; i++) {
           const strongElement = strongElements[i];
@@ -319,7 +319,7 @@ index = (function () {
         selection.removeAllRanges();
         selection.addRange(newRange);
 
-        document.querySelector('#comment').childNodes.forEach(em => {
+        document.querySelector('#textarea').childNodes.forEach(em => {
           if (em.innerText === "" || null) {
             em.remove();
           }
@@ -332,7 +332,7 @@ index = (function () {
         let range = selection.getRangeAt(0);
 
         let selectedText = range.toString();
-        let emElements = document.querySelectorAll('#comment em');
+        let emElements = document.querySelectorAll('#textarea em');
 
         emElements.forEach(emElement => {
           let emRange = document.createRange();
@@ -388,7 +388,7 @@ index = (function () {
         let startNode = range.startContainer;
         let endNode = range.endContainer;
 
-        let emElements = document.querySelectorAll('#comment em');
+        let emElements = document.querySelectorAll('#textarea em');
 
         for (let i = 0; i < emElements.length; i++) {
           const emElement = emElements[i];
@@ -403,12 +403,12 @@ index = (function () {
       return false;
     }
   }
-  function rcasc(is) {
-    const index = is.indexOf("?id=");
+  function rcasc(hash) {
+    const index = hash.indexOf("?id=");
     if (index !== -1) {
-      return is.substring(0, index);
+      return hash.substring(0, index);
     }
-    return is;
+    return hash;
   }
   function gcard(t, i, l) {
     const cardarea = document.querySelector('.card-area');

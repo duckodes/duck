@@ -33,6 +33,7 @@ const comments = (() => {
                     localUserData.splice(index, 1);
                 }
                 localStorage.setItem('ANONYMOUS_USER_DATA', JSON.stringify(localUserData));
+                JSON.parse(localStorage.getItem('ANONYMOUS_USER_DATA')).length === 0 && localStorage.removeItem('ANONYMOUS_USER_DATA');
             }
         });
     }

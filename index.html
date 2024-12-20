@@ -111,10 +111,12 @@
     <script src="https://lib.duckode.com/js/contextmenuutils.min.js"></script>
     <script src="https://lib.duckode.com/js/dateutils.min.js"></script>
     <script src="js/clickutils.js"></script>
-    <script src="js/index.js"></script>
+    <script src="module/index.js" type="module"></script>
     <script src="module/fetcher.js" type="module"></script>
     <script src="module/comments.js" type="module"></script>
-    <script>
+    <script type="module">
+        import index from "./module/index.js";
+        
         index.gcard("Research", "img/research/research_500x500_72ppi.png", "https://research.duckode.com");
         index.gcard("Unity Script Library", "img/csharplib/topic-csharplib_1024x_144ppi.png", "https://topic-csharplib.duckode.com");
         index.gcard(".EXE Game (Unity)", "img/windowgame(unity)/windowgame(unity)_1024x_72ppi.png", "https://drive.google.com/drive/folders/1Y2YbJTjPOvvKPhIOK-HLZuO4djRawdMp?usp=sharing");

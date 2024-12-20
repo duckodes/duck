@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getDatabase, onValue, ref, child, get, set, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 import fetcher from "./fetcher.js";
+import index from "./index.js";
 
 const comments = (() => {
     function render(name, comment) {

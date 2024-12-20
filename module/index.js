@@ -460,3 +460,5 @@ const index = (function () {
     }
   }
 }());
+
+export default index;

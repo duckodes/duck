@@ -4,7 +4,7 @@
         "topic": "topic",
         "contact": "contact"
     },
-    "card":{
+    "card": {
         "readmore": "Read More",
         "items": {
             "research": "Research",
@@ -24,5 +24,24 @@
         },
         "post": "Send"
     },
-    "comments": "comments"
+    "comments": {
+        "comments": "comments",
+        "delete": "delete"
+    },
+    "confirm": {
+        "post": "Are you sure you want to submit?",
+        "delete": "Are you sure you want to delete?"
+    },
+    "alert": {
+        "post": {
+            "public": [
+                "Thank you for your message,",
+                "~~😊❤️❤️"
+            ],
+            "private": [
+                "Thank you for your private message,",
+                "~~😊💕❤️"
+            ]
+        }
+    }
 }

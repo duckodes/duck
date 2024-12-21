@@ -61,6 +61,7 @@ body {
 .title {
     align-self: center;
     word-break: break-word;
+    text-align: center;
     width: 200px;
 }
 
@@ -309,6 +310,8 @@ body {
 }
 
 #comments>.comments-container>.comments-name {
+    font-family: 'Poiret_One', 'ZenMaruGothic-Light';
+    letter-spacing: 1px;
     font-size: 20px;
     word-break: break-word;
     font-weight: bolder;

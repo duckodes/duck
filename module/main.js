@@ -8,6 +8,7 @@ const main = (async () => {
     zh_tw: 'zh-TW',
     en_za: 'en-ZA'
   }
+  document.documentElement.lang = navigator.language;
   let languageData = await language.cache(navigator.language);
   init(languageData);
   async function init(languageData) {
@@ -32,7 +33,7 @@ const main = (async () => {
     await generatecard.init(languageData);
 
     dynamicontent.inititle(["Duckode", "Hello", "Quack, quack!"], document.querySelector('title'));
-    dynamicontent.init(["Hello, I'm BytemeBear!", "Welcome!"], document.querySelector('h1'), '#36f', 5000);
+    dynamicontent.init(["Hello, I'm BytemeBear!", "Welcome!"], document.querySelector('h1'), '#36f', 5000);
 
     motionbackground.initdotliner('#00000070', '#00000010');
 

@@ -1,7 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getDatabase, onValue, ref, set, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 import fetcher from "./fetcher.js";
-import language from "./language.js";
 
 const comments = (() => {
     function render(name, comment) {
@@ -19,15 +18,15 @@ const comments = (() => {
         commentsContainer.appendChild(content);
         return commentsContainer;
     }
-    function renderDeleteButton(database, dataKeys, i, commentsContainer, localUserData) {
+    function renderDeleteButton(database, dataKeys, i, commentsContainer, localUserData, languageData) {
         const buttonContainer = document.createElement('div');
         buttonContainer.className = 'button-container';
         const button = document.createElement('button');
-        button.textContent = '刪除';
+        button.textContent = languageData.comments.delete;
         commentsContainer.appendChild(buttonContainer);
         buttonContainer.appendChild(button);
         button.addEventListener('click', () => {
-            if (confirm('確定要刪除?')) {
+            if (confirm(languageData.confirm.delete)) {
                 remove(ref(database, `duckode/comments/public/${dataKeys[i]}`));
                 let index = localUserData.indexOf(dataKeys[i]);
                 if (index !== -1) {
@@ -38,8 +37,7 @@ const comments = (() => {
             }
         });
     }
-    async function autoUpdateData(database) {
-        const languageData = await language.cache(document.documentElement.lang);
+    async function autoUpdateData(database, languageData) {
         const dataRef = ref(database, 'duckode/comments/public');
         const getFrontSection = (hash) => {
             const index = hash.indexOf("?id=");
@@ -49,7 +47,7 @@ const comments = (() => {
             return hash;
         }
         onValue(dataRef, (snapshot) => {
-            document.querySelector('#comments').innerHTML = languageData.comments;
+            document.querySelector('#comments').innerHTML = languageData.comments.comments;
             let data = snapshot.val();
             if (data !== null) {
                 let dataKeys = Object.keys(data);
@@ -61,7 +59,7 @@ const comments = (() => {
                     const commentsContainer = render(name, comment);
                     setTimeout(() => {
                         let localUserData = JSON.parse(localStorage.getItem('ANONYMOUS_USER_DATA')) || [];
-                        localUserData.includes(dataKeys[i]) && renderDeleteButton(database, dataKeys, i, commentsContainer, localUserData);
+                        localUserData.includes(dataKeys[i]) && renderDeleteButton(database, dataKeys, i, commentsContainer, localUserData, languageData);
                     }, 200);
                 }
             }
@@ -113,28 +111,28 @@ const comments = (() => {
             }
         });
     }
-    function postPublicData(database, name, textarea, errorNameTxt, errorTextareaTxt) {
+    function postPublicData(database, name, textarea, errorNameTxt, errorTextareaTxt, languageData) {
         let localUserData = JSON.parse(localStorage.getItem('ANONYMOUS_USER_DATA')) || [];
         const hash = dateutils.ToHash();
         const dataRef = ref(database, `duckode/comments/public/${name.value}?id=${hash}`);
         validate(name, textarea, errorNameTxt, errorTextareaTxt).then((message) => {
-            if (!confirm('確定要送出?'))
+            if (!confirm(languageData.confirm.post))
                 return;
             set(dataRef, textarea.innerHTML);
             localUserData.push(`${name.value}?id=${hash}`);
             localStorage.setItem('ANONYMOUS_USER_DATA', JSON.stringify(localUserData));
-            alert(`感謝 ${name.value} 的留言~~😊❤️❤️`);
+            alert(languageData.alert.post.public[0] + ` ${name.value} ` + languageData.alert.post.public[1]);
             name.value = "";
             textarea.textContent = "";
         });
     }
-    function postPrivateData(database, name, textarea, errorNameTxt, errorTextareaTxt) {
+    function postPrivateData(database, name, textarea, errorNameTxt, errorTextareaTxt, languageData) {
         const dataRef = ref(database, `duckode/comments/private/${name.value}`);
         validate(name, textarea, errorNameTxt, errorTextareaTxt).then((message) => {
-            if (!confirm('確定要送出?'))
+            if (!confirm(languageData.confirm.post))
                 return;
             set(dataRef, textarea.textContent);
-            alert(`感謝 ${name.value} 的私信~~😊💕❤️`);
+            alert(languageData.alert.post.private[0] + ` ${name.value} ` + languageData.alert.post.private[1]);
             name.value = "";
             textarea.textContent = "";
         });
@@ -170,10 +168,10 @@ const comments = (() => {
             });
             post.addEventListener('click', () => {
                 status === statusStruct.public ?
-                    postPublicData(database, name, textarea, errorNameTxt, errorTextareaTxt) :
-                    postPrivateData(database, name, textarea, errorNameTxt, errorTextareaTxt);
+                    postPublicData(database, name, textarea, errorNameTxt, errorTextareaTxt, languageData) :
+                    postPrivateData(database, name, textarea, errorNameTxt, errorTextareaTxt, languageData);
             });
-            autoUpdateData(database);
+            autoUpdateData(database, languageData);
         }
     }
 })();

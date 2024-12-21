@@ -483,6 +483,11 @@ const main = (async () => {
                 </div>
                 <div id="comments"></div>
             </div>
+            <div class="mailto">
+                <a href="mailto:bear90789078@gmail.com">
+                    Gmail信箱
+                </a>
+            </div>
         </div>
     </div>
     `

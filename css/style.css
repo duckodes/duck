@@ -341,3 +341,16 @@ body {
 #comments>.comments-container>.button-container>button:active {
     background-color: #db5b5b;
 }
+
+.mailto {
+    width: 100dvw;
+    text-align: center;
+}
+
+.mailto>a {
+    color: #000;
+}
+
+.mailto>a:hover {
+    color: #f36f6f;
+}

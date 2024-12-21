@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getDatabase, onValue, ref, child, get, set, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { getDatabase, onValue, ref, set, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 import fetcher from "./fetcher.js";
-import index from "./index.js";
+import language from "./language.js";
 
 const comments = (() => {
     function render(name, comment) {
@@ -38,17 +38,25 @@ const comments = (() => {
             }
         });
     }
-    function autoUpdateData(database) {
+    async function autoUpdateData(database) {
+        const languageData = await language.cache(document.documentElement.lang);
         const dataRef = ref(database, 'duckode/comments/public');
+        const getFrontSection = (hash) => {
+            const index = hash.indexOf("?id=");
+            if (index !== -1) {
+                return hash.substring(0, index);
+            }
+            return hash;
+        }
         onValue(dataRef, (snapshot) => {
-            document.querySelector('#comments').innerHTML = "留言版";
+            document.querySelector('#comments').innerHTML = languageData.comments;
             let data = snapshot.val();
             if (data !== null) {
                 let dataKeys = Object.keys(data);
                 let dataVals = Object.values(data);
                 for (let i = 0; i < dataKeys.length; i++) {
                     const keys = dataKeys[i].split('?id=')[1];
-                    const name = index.rcasc(dataKeys[i]);
+                    const name = getFrontSection(dataKeys[i]);
                     const comment = dataVals[i];
                     const commentsContainer = render(name, comment);
                     setTimeout(() => {
@@ -110,6 +118,8 @@ const comments = (() => {
         const hash = dateutils.ToHash();
         const dataRef = ref(database, `duckode/comments/public/${name.value}?id=${hash}`);
         validate(name, textarea, errorNameTxt, errorTextareaTxt).then((message) => {
+            if (!confirm('確定要送出?'))
+                return;
             set(dataRef, textarea.innerHTML);
             localUserData.push(`${name.value}?id=${hash}`);
             localStorage.setItem('ANONYMOUS_USER_DATA', JSON.stringify(localUserData));
@@ -121,6 +131,8 @@ const comments = (() => {
     function postPrivateData(database, name, textarea, errorNameTxt, errorTextareaTxt) {
         const dataRef = ref(database, `duckode/comments/private/${name.value}`);
         validate(name, textarea, errorNameTxt, errorTextareaTxt).then((message) => {
+            if (!confirm('確定要送出?'))
+                return;
             set(dataRef, textarea.textContent);
             alert(`感謝 ${name.value} 的私信~~😊💕❤️`);
             name.value = "";
@@ -128,7 +140,7 @@ const comments = (() => {
         });
     }
     return {
-        init: async () => {
+        init: async (languageData) => {
             const firebaseConfig = await fetcher.load('../config/firebaseConfig.json');
             const app = initializeApp(firebaseConfig);
             const database = getDatabase();
@@ -141,13 +153,13 @@ const comments = (() => {
             const errorTextareaTxt = document.getElementById('error-textarea-txt');
 
             const statusStruct = {
-                public: '公開',
-                private: '私信'
+                public: languageData.contact.public,
+                private: languageData.contact.private
             }
             let status = statusStruct.public;
 
             btnStatus.addEventListener('click', () => {
-                if (status === "公開") {
+                if (status === statusStruct.public) {
                     status = statusStruct.private;
                     btnStatus.style.color = '#f36f6f';
                 } else {
@@ -157,7 +169,7 @@ const comments = (() => {
                 btnStatus.textContent = status;
             });
             post.addEventListener('click', () => {
-                status === "公開" ?
+                status === statusStruct.public ?
                     postPublicData(database, name, textarea, errorNameTxt, errorTextareaTxt) :
                     postPrivateData(database, name, textarea, errorNameTxt, errorTextareaTxt);
             });
@@ -165,4 +177,4 @@ const comments = (() => {
         }
     }
 })();
-comments.init();
+export default comments;

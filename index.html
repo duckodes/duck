@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-ZA">
 
 <head>
     <meta charset="UTF-8">
@@ -30,97 +30,15 @@
 </head>
 
 <body>
-    <div class="duck">
-        <div class="nav">
-            <div class="navbtn">
-                home
-            </div>
-            <div class="navbtn">
-                topic
-            </div>
-            <div class="navbtn">
-                contact
-            </div>
-        </div>
-        <div class="content">
-            <div class="home">
-                <h1 class="title">Hello</h1>
-            </div>
-            <div class="card">
-                <div class="card-area"></div>
-            </div>
-            <div class="contact">
-                <h1>Contact</h1>
-                <div class="field">
-                    <div>
-                        post status:
-                        <button id="btn-status">公開</button>
-                        (click to change)
-                    </div>
-                    <div class="name-field">
-                        <input placeholder="name.." type="text" id="name"
-                            style="font-family: Poiret_One;font-weight: 900;" />
-                        <div id="error-name-txt"></div>
-                    </div>
-                    <div style="font-family: Poiret_One;" id="textarea" contenteditable="true"></div>
-                    <div id="error-textarea-txt"></div>
-                    <div class="textarea-tools">
-                        <div class="tools-blod">
-                            B
-                        </div>
-                        <div class="tools-i">
-                            <em style="font-family: 'Times New Roman', Times, serif;">I</em>
-                        </div>
-                        <div class="tools-size-num" contenteditable="true"></div>
-                        <div class="tools-size plus">
-                            &#43;
-                        </div>
-                        <div class="tools-size minus">
-                            &#8722;
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <button id="post" style="font-family: Poiret_One;font-weight: 900;">傳送</button>
-                </div>
-                <div id="comments" style="font-family: Poiret_One;"></div>
-            </div>
-        </div>
-    </div>
     <script src="https://lib.duckode.com/js/scrollviewutils.min.js"></script>
-    <script>
-        document.querySelectorAll('.navbtn')[0].addEventListener("click", () => {
-            scrollviewutils.cto('.home');
-        });
-        document.querySelectorAll('.navbtn')[1].addEventListener("click", () => {
-            scrollviewutils.cto('.card');
-        });
-        document.querySelectorAll('.navbtn')[2].addEventListener("click", () => {
-            scrollviewutils.cto('.contact');
-        });
-    </script>
     <script src="https://lib.duckode.com/js/dynamicontent.min.js"></script>
-    <script>
-        dynamicontent.inititle(["Duckode", "Hello", "Quack, quack!"], document.querySelector('title'));
-        dynamicontent.init(["Hello, I'm BytemeBear!", "Welcome!"], document.querySelector('h1'), '#36f', 5000);
-    </script>
     <script src="https://lib.duckode.com/js/motionbackground.min.js"></script>
-    <script>
-        motionbackground.initdotliner('#00000070', '#00000010');
-    </script>
     <script src="https://lib.duckode.com/js/contextmenuutils.min.js"></script>
     <script src="https://lib.duckode.com/js/dateutils.min.js"></script>
     <script src="https://lib.duckode.com/js/clickutils.min.js"></script>
-    <script src="module/index.js" type="module"></script>
+    <script src="module/main.js" type="module"></script>
     <script src="module/fetcher.js" type="module"></script>
     <script src="module/comments.js" type="module"></script>
-    <script type="module">
-        import index from "./module/index.js";
-        
-        index.gcard("Research", "img/research/research_500x500_72ppi.png", "https://research.duckode.com");
-        index.gcard("Unity Script Library", "img/csharplib/topic-csharplib_1024x_144ppi.png", "https://topic-csharplib.duckode.com");
-        index.gcard(".EXE Game (Unity)", "img/windowgame(unity)/windowgame(unity)_1024x_72ppi.png", "https://drive.google.com/drive/folders/1Y2YbJTjPOvvKPhIOK-HLZuO4djRawdMp?usp=sharing");
-    </script>
 </body>
 
 </html>

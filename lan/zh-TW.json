@@ -1,0 +1,28 @@
+{
+    "nav": {
+        "home": "主頁",
+        "topic": "開發",
+        "contact": "留言"
+    },
+    "card":{
+        "readmore": "讀更多...",
+        "items": {
+            "research": "開發研究",
+            "library": "程式庫開發",
+            "game": ".EXE 遊戲"
+        }
+    },
+    "contact": {
+        "contact": "留言",
+        "public": "公開留言",
+        "private": "私信",
+        "poststatus": "發布狀態:",
+        "clicktochange": "(點擊更換)",
+        "placeholder": {
+            "name": "填入名字或稱號..",
+            "textarea": "輸入留言.."
+        },
+        "post": "送出"
+    },
+    "comments": "留言板"
+}

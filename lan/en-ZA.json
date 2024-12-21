@@ -1,0 +1,28 @@
+{
+    "nav": {
+        "home": "home",
+        "topic": "topic",
+        "contact": "contact"
+    },
+    "card":{
+        "readmore": "Read More",
+        "items": {
+            "research": "Research",
+            "library": "Unity Script Library",
+            "game": ".EXE Game(Unity)"
+        }
+    },
+    "contact": {
+        "contact": "Contact",
+        "public": "public comment",
+        "private": "direct message",
+        "poststatus": "post status:",
+        "clicktochange": "(click to change)",
+        "placeholder": {
+            "name": "name..",
+            "textarea": "comments.."
+        },
+        "post": "Send"
+    },
+    "comments": "comments"
+}

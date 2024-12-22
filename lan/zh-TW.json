@@ -28,6 +28,9 @@
         "comments": "留言板",
         "delete": "刪除"
     },
+    "otherinfo":{
+        "mailto": "信箱"
+    },
     "confirm": {
         "post": "確定要送出?",
         "delete": "確定要刪除?"

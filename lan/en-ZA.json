@@ -15,7 +15,7 @@
     "contact": {
         "contact": "Contact",
         "public": "public comment",
-        "private": "direct message",
+        "private": "private message",
         "poststatus": "post status:",
         "clicktochange": "(click to change)",
         "placeholder": {
@@ -27,6 +27,9 @@
     "comments": {
         "comments": "comments",
         "delete": "delete"
+    },
+    "otherinfo":{
+        "mailto": "Gmail"
     },
     "confirm": {
         "post": "Are you sure you want to submit?",

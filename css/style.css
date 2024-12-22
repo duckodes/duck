@@ -62,7 +62,7 @@ body {
     align-self: center;
     word-break: break-word;
     text-align: center;
-    width: 200px;
+    width: 70dvw;
 }
 
 .bg-l {
@@ -345,15 +345,17 @@ body {
     background-color: #db5b5b;
 }
 
-.mailto {
-    width: 100dvw;
-    text-align: center;
+.other-info {
+    margin: 30px 10px 30px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.mailto>a {
+.other-info>a {
     color: #000;
 }
 
-.mailto>a:hover {
+.other-info>a:hover {
     color: #f36f6f;
 }

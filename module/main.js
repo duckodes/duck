@@ -16,20 +16,6 @@ const main = (async () => {
   async function init(languageData) {
     document.body.innerHTML = render(languageData);
 
-    clickutils.click(document.querySelector('.language-switch'), 0, async () => {
-      if (document.documentElement.lang === languageType.zh_tw) {
-        document.documentElement.lang = languageType.en_za;
-      } else {
-        document.documentElement.lang = languageType.zh_tw;
-      }
-      document.body.innerHTML = null;
-      language.clear();
-      document.querySelector('title').remove();
-      document.querySelector('head').appendChild(document.createElement('title'));
-      languageData = await language.cache(document.documentElement.lang);
-      init(languageData);
-    });
-
     await comments.init(languageData);
     await scrollview.init();
     await generatecard.init(languageData);
@@ -39,6 +25,22 @@ const main = (async () => {
 
     motionbackground.initdotliner('#00000070', '#00000010');
     (await commentsutils).init();
+    registEvents();
+  }
+    
+  function registEvents() {
+      clickutils.click(document.querySelector('.language-switch'), 0, async () => {
+          if (document.documentElement.lang === languageType.zh_tw) {
+              document.documentElement.lang = languageType.en_za;
+          } else {
+              document.documentElement.lang = languageType.zh_tw;
+          }
+          language.clear();
+          document.querySelector('title').remove();
+          document.querySelector('head').appendChild(document.createElement('title'));
+          languageData = await language.cache(document.documentElement.lang);
+          init(languageData);
+      });
   }
 
   function render(languageData) {

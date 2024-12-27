@@ -5,46 +5,46 @@ import comments from "./comments.js";
 import commentsutils from "./commentsutils.js";
 
 const main = (async () => {
-  const languageType = {
-    zh_tw: 'zh-TW',
-    en_za: 'en-ZA'
-  }
-  document.documentElement.lang = navigator.language;
-  let languageData = await language.cache(navigator.language);
-  init(languageData);
-  
-  async function init(languageData) {
-    document.body.innerHTML = render(languageData);
+    const languageType = {
+        zh_tw: 'zh-TW',
+        en_za: 'en-ZA'
+    }
+    document.documentElement.lang = navigator.language;
+    let languageData = await language.cache(navigator.language);
+    init(languageData);
 
-    await comments.init(languageData);
-    await scrollview.init();
-    await generatecard.init(languageData);
+    async function init(languageData) {
+        document.body.innerHTML = render(languageData);
 
-    dynamicontent.inititle(["Duckode", "Hello", "Quack, quack!"], document.querySelector('title'));
-    dynamicontent.init(["Hello, I'm BytemeBear!", "Welcome!"], document.querySelector('h1'), '#36f', 5000);
+        await comments.init(languageData);
+        await scrollview.init();
+        await generatecard.init(languageData);
 
-    motionbackground.initdotliner('#00000070', '#00000010');
-    (await commentsutils).init();
-    registEvents();
-  }
-    
-  function registEvents() {
-      clickutils.click(document.querySelector('.language-switch'), 0, async () => {
-          if (document.documentElement.lang === languageType.zh_tw) {
-              document.documentElement.lang = languageType.en_za;
-          } else {
-              document.documentElement.lang = languageType.zh_tw;
-          }
-          language.clear();
-          document.querySelector('title').remove();
-          document.querySelector('head').appendChild(document.createElement('title'));
-          languageData = await language.cache(document.documentElement.lang);
-          init(languageData);
-      });
-  }
+        dynamicontent.inititle(["Duckode", "Hello", "Quack, quack!"], document.querySelector('title'));
+        dynamicontent.init(["Hello, I'm BytemeBear!", "Welcome!"], document.querySelector('h1'), '#36f', 5000);
 
-  function render(languageData) {
-    return `
+        motionbackground.initdotliner('#00000070', '#00000010');
+        (await commentsutils).init();
+        registEvents();
+    }
+
+    function registEvents() {
+        clickutils.click(document.querySelector('.language-switch'), 0, async () => {
+            if (document.documentElement.lang === languageType.zh_tw) {
+                document.documentElement.lang = languageType.en_za;
+            } else {
+                document.documentElement.lang = languageType.zh_tw;
+            }
+            language.clear();
+            document.querySelector('title').remove();
+            document.querySelector('head').appendChild(document.createElement('title'));
+            languageData = await language.cache(document.documentElement.lang);
+            init(languageData);
+        });
+    }
+
+    function render(languageData) {
+        return `
     <div class="duck">
         <div class="language-switch">
             en繁
@@ -110,7 +110,7 @@ const main = (async () => {
         </div>
     </div>
     `
-  }
+    }
 })();
 
 export default main;

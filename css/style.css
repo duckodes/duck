@@ -307,6 +307,12 @@ body {
     min-width: 150px;
     max-width: 350px;
     background-color: #f0f0f0;
+    box-shadow: 5px 5px 10px #00000020;
+    cursor: pointer;
+}
+
+#comments>.comments-container:hover {
+    box-shadow: 5px 5px 15px #00000030;
 }
 
 #comments>.comments-container>.comments-name {

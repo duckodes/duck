@@ -1,7 +1,8 @@
 const generatecard = (() => {
     return {
         init: async (languageData) => {
-            gcard(languageData.card.items.research, "img/research/research_500x500_72ppi.png", "https://research.duckode.com", languageData);
+            gcard(languageData.card.items.jslibrary, "img/research/research_500x500_72ppi.png", "https://lib.duckode.com", languageData);
+            gcard(languageData.card.items.research, "img/buffer/buffer_100x100_72ppi.png", "https://research.duckode.com", languageData);
             gcard(languageData.card.items.library, "img/csharplib/topic-csharplib_1024x_144ppi.png", "https://topic-csharplib.duckode.com", languageData);
             gcard(languageData.card.items.game, "img/windowgame(unity)/windowgame(unity)_1024x_72ppi.png", "https://drive.google.com/drive/folders/1Y2YbJTjPOvvKPhIOK-HLZuO4djRawdMp?usp=sharing", languageData);
         },

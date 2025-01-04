@@ -120,12 +120,14 @@ body {
     align-self: center;
     justify-content: center;
     flex-direction: column;
-    width: 100%;
+    width: 100dvw;
+    max-width: 545px;
 }
 
 .field>#textarea {
     align-self: center;
-    width: 70%;
+    width: 70dvw;
+    max-width: 380px;
     height: auto;
     min-height: 150px;
     background: white;
@@ -133,6 +135,7 @@ body {
     padding: 5%;
     word-break: break-all;
     border: 1px solid #00000050;
+    font-size: 20px;
     font-family: 'Poiret_One', 'ZenMaruGothic-Light';
 }
 
@@ -143,11 +146,12 @@ body {
 }
 
 .field>.name-field>#name {
-    font-family: 'Poiret_One', 'ZenMaruGothic-Light';
     width: 70%;
     padding: 5%;
     margin-left: 10%;
     border: 1px solid #00000050;
+    font-size: 16px;
+    font-family: 'Poiret_One', 'ZenMaruGothic-Light';
 }
 
 #btn-field {
@@ -275,7 +279,8 @@ body {
     border: 1px solid #c0c0c0;
     background-color: #f8f8f8;
     padding: 5px;
-    width: 150px;
+    width: 100%;
+    max-width: 150px;
     cursor: pointer;
 }
 

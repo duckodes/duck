@@ -365,6 +365,11 @@ body {
 
 .other-info>a {
     color: #000;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 5px;
+    font-size: 12px;
 }
 
 .other-info>a:hover {

@@ -4,81 +4,81 @@ const commentsutils = (async () => {
             let isMouseDown = false;
             let lastExecution = 0;
             const interval = 100;
-            document.querySelector('#textarea').addEventListener("input", () => {
-                if (document.querySelector('#textarea').textContent === "" || document.querySelector('#textarea').textContent === null) {
-                    document.querySelector('#textarea').innerHTML = "";
+            const editor = document.querySelector('#textarea');
+
+            editor.addEventListener("input", () => {
+                if (editor.textContent === "" || editor.textContent === null) {
+                    editor.innerHTML = "";
                 }
             });
+
             document.querySelector('.tools-size.plus').addEventListener("pointerdown", () => {
                 isMouseDown = true;
                 function continuousAction(timestamp) {
                     if (isMouseDown) {
                         if (timestamp - lastExecution > interval) {
-                            if (parseInt(document.querySelector('.tools-size-num').innerHTML) <= 71) {
-                                changeSelectedTextFontSize((parseInt(document.querySelector('.tools-size-num').innerHTML) + 1) + 'px');
+                            const currentSize = parseInt(document.querySelector('.tools-size-num').innerHTML);
+                            if (currentSize <= 71) {
+                                changeSelectedTextFontSize((currentSize + 1) + 'px');
                             }
                             lastExecution = timestamp;
                         }
                         requestAnimationFrame(continuousAction);
                     }
                 }
-
                 requestAnimationFrame(continuousAction);
             });
+
             document.querySelector('.tools-size.minus').addEventListener("pointerdown", () => {
                 isMouseDown = true;
                 function continuousAction(timestamp) {
                     if (isMouseDown) {
                         if (timestamp - lastExecution > interval) {
-                            if (parseInt(document.querySelector('.tools-size-num').innerHTML) > 0) {
-                                changeSelectedTextFontSize((parseInt(document.querySelector('.tools-size-num').innerHTML) - 1) + 'px');
+                            const currentSize = parseInt(document.querySelector('.tools-size-num').innerHTML);
+                            if (currentSize > 1) { // 設定最小字體為 1px
+                                changeSelectedTextFontSize((currentSize - 1) + 'px');
                             }
                             lastExecution = timestamp;
                         }
                         requestAnimationFrame(continuousAction);
                     }
                 }
-
                 requestAnimationFrame(continuousAction);
             });
-            document.addEventListener('mouseup', function (event) {
+
+            document.addEventListener('mouseup', function () {
                 isMouseDown = false;
             });
 
             function getSelectedTextFontSize() {
                 let selection = window.getSelection();
-                if (selection.rangeCount > 0) {
+                if (selection.rangeCount > 0 && editor.contains(selection.anchorNode)) {
                     let range = selection.getRangeAt(0);
-
-                    // Get the container node of the selected range
                     let container = range.commonAncestorContainer;
 
-                    // Check if the container is a text node, if so, get its parent element
                     if (container.nodeType === Node.TEXT_NODE) {
                         container = container.parentElement;
                     }
-
-                    // Find the deepest element containing the whole selection
-                    while (container.childNodes.length === 1 && container.firstChild.nodeType === Node.ELEMENT_NODE) {
-                        container = container.firstChild;
+                    
+                    // 從選區開始處向上查找，直到找到 #textarea 或帶有字體大小的 span
+                    while (container && container !== editor && !container.style.fontSize) {
+                        container = container.parentElement;
                     }
 
-                    // Get the computed style of the deepest element to retrieve font-size
-                    let fontSize = window.getComputedStyle(container).fontSize;
-                    return fontSize;
-                } else {
-                    document.querySelector('.tools-size-num').innerText = "";
-                    return null;
+                    if (container && container !== editor) {
+                         return window.getComputedStyle(container).fontSize;
+                    }
                 }
+                // 如果沒有選區或找不到特定樣式，返回編輯器本身的字體大小
+                return window.getComputedStyle(editor).fontSize;
             }
+
             function changeSelectedTextFontSize(newSize) {
                 let selection = window.getSelection();
                 if (!selection.rangeCount) return;
 
                 let range = selection.getRangeAt(0);
                 if (range.collapsed) {
-                    // If no text is selected, apply the style to subsequently typed text
-                    // A zero-width character can be inserted here to carry the style
                     return;
                 }
 
@@ -89,16 +89,11 @@ const commentsutils = (async () => {
                     endOffset: range.endOffset
                 };
 
-                // Use execCommand to handle complex selections
-                // It will generate <font size="..."> tags, which we will replace later
-                document.execCommand('fontSize', false, '1'); // '1' is a placeholder
+                document.execCommand('fontSize', false, '1'); // 使用 execCommand 產生 <font> 標籤
 
-                const editor = document.querySelector('#textarea');
                 const fontElements = editor.getElementsByTagName('font');
-
                 let firstNewSpan = null;
 
-                // Replace the <font> tags generated by execCommand with <span style="font-size:...">
                 while (fontElements.length > 0) {
                     let fontElement = fontElements[0];
                     let span = document.createElement('span');
@@ -108,19 +103,15 @@ const commentsutils = (async () => {
                         firstNewSpan = span;
                     }
 
-                    // Move the content of the font tag to the new span
                     while (fontElement.firstChild) {
                         span.appendChild(fontElement.firstChild);
                     }
 
-                    // Replace the font tag with the span
                     fontElement.parentNode.replaceChild(span, fontElement);
                 }
 
-                // Clean up and merge adjacent span tags
                 normalizeSpans(editor);
 
-                // Restore the selection
                 selection.removeAllRanges();
                 try {
                     const newRange = document.createRange();
@@ -135,6 +126,8 @@ const commentsutils = (async () => {
                         selection.addRange(newRange);
                     }
                 }
+                // 手動更新字體大小顯示
+                document.querySelector('.tools-size-num').innerText = parseInt(newSize);
             }
 
             function normalizeSpans(parentElement) {
@@ -143,299 +136,73 @@ const commentsutils = (async () => {
                     let currentSpan = spans[i];
                     let nextSpan = spans[i + 1];
 
-                    // 檢查是否為直接相鄰的兄弟節點且樣式相同
                     if (currentSpan.nextSibling === nextSpan && currentSpan.style.cssText === nextSpan.style.cssText) {
-                        // 合併文字內容
                         currentSpan.innerHTML += nextSpan.innerHTML;
-                        // 移除下一個 span
                         nextSpan.remove();
-                        // 因為 DOM 結構改變，重新開始檢查
-                        normalizeSpans(parentElement);
+                        normalizeSpans(parentElement); // 重新開始檢查
                         return;
                     }
                 }
             }
 
-            document.addEventListener("selectionchange", () => {
-                if (!isNaN(parseInt(getSelectedTextFontSize()))) {
-                    document.querySelector('.tools-size-num').innerText = parseInt(getSelectedTextFontSize());
+            function updateToolbarState() {
+                // 更新字體大小
+                const size = getSelectedTextFontSize();
+                if (size && !isNaN(parseInt(size))) {
+                    document.querySelector('.tools-size-num').innerText = parseInt(size);
                 }
-                if (!isStrong()) {
-                    document.querySelector('.tools-blod').classList.remove('tools-active');
-                } else {
+
+                // 更新粗體按鈕狀態
+                if (document.queryCommandState('bold')) {
                     document.querySelector('.tools-blod').classList.add('tools-active');
-                }
-                if (!isEm()) {
-                    document.querySelector('.tools-i').classList.remove('tools-active');
                 } else {
+                    document.querySelector('.tools-blod').classList.remove('tools-active');
+                }
+
+                // 更新斜體按鈕狀態
+                if (document.queryCommandState('italic')) {
                     document.querySelector('.tools-i').classList.add('tools-active');
+                } else {
+                    document.querySelector('.tools-i').classList.remove('tools-active');
+                }
+            }
+
+            document.addEventListener("selectionchange", () => {
+                // 只有當選區在編輯器內時才更新工具列
+                const selection = window.getSelection();
+                if (selection.rangeCount > 0 && editor.contains(selection.anchorNode)) {
+                    updateToolbarState();
                 }
             });
+            
+            editor.addEventListener('focus', updateToolbarState);
+
 
             document.querySelectorAll('.textarea-tools > *').forEach(c => {
-                c.addEventListener('click', function () {
-                    document.querySelectorAll('.textarea-tools > *').forEach(otherc => {
-                        if (otherc !== this) {
-                            //otherc.classList.remove('tools-active');
-                        }
-                    });
-                    this.classList.remove('tools-hover');
-                    this.classList.toggle('tools-active');
-                    if (c === document.querySelectorAll('.tools-size')[0] ||
-                        c === document.querySelectorAll('.tools-size')[1] ||
-                        c === document.querySelector('.tools-size-num')) {
-                        c.classList.remove('tools-active');
-                    }
-
-                    if (this.classList.contains('tools-blod') && this.classList.contains('tools-active')) {
-                        if (!document.querySelector('#textarea').contains(document.querySelector("strong"))) {
-                            document.querySelector('#textarea').appendChild(document.createElement("strong"));
-                        }
-                        moveTextInsideStrong();
-                    } else if (this.classList.contains('tools-blod') && !this.classList.contains('tools-active')) {
-                        moveTextOutsideStrong();
-                    }
-                    if (this.classList.contains('tools-i') && this.classList.contains('tools-active')) {
-                        if (!document.querySelector('#textarea').contains(document.querySelector("em"))) {
-                            document.querySelector('#textarea').appendChild(document.createElement("em"));
-                        }
-                        moveTextInsideEm();
-                    } else if (this.classList.contains('tools-i') && !this.classList.contains('tools-active')) {
-                        moveTextOutsideEm();
-                    }
-                });
                 c.addEventListener('mousedown', function (e) {
+                    // 防止點擊工具按鈕時編輯器失去焦點
                     e.preventDefault();
                 });
+
+                c.addEventListener('click', function () {
+                    if (this.classList.contains('tools-blod')) {
+                        document.execCommand('bold');
+                    } else if (this.classList.contains('tools-i')) {
+                        document.execCommand('italic');
+                    }
+                    // 點擊後立即更新工具列狀態
+                    updateToolbarState();
+                });
+
                 c.addEventListener('mouseenter', function () {
                     if (!this.classList.contains('tools-active')) {
-                        this.classList.toggle('tools-hover');
+                        this.classList.add('tools-hover');
                     }
                 });
                 c.addEventListener('mouseleave', function () {
                     this.classList.remove('tools-hover');
                 });
             });
-            function moveTextInsideStrong() {
-                let selection = window.getSelection();
-                if (selection.rangeCount > 0) {
-                    let range = selection.getRangeAt(0);
-                    let selectedText = range.toString();
-                    let startNode = range.startContainer;
-                    let endNode = range.endContainer;
-
-                    let strongElement = document.createElement('strong');
-                    strongElement.textContent = selectedText;
-
-                    // Extract the selected text
-                    range.deleteContents();
-                    range.insertNode(strongElement);
-
-                    // Re-select the original range
-                    let newRange = document.createRange();
-                    if (startNode.nodeType === Node.TEXT_NODE) {
-                        newRange.setStart(strongElement.firstChild, 0);
-                        newRange.setEnd(strongElement.firstChild, selectedText.length);
-                    } else {
-                        newRange.selectNodeContents(strongElement);
-                    }
-
-                    selection.removeAllRanges();
-                    selection.addRange(newRange);
-
-                    document.querySelector('#textarea').childNodes.forEach(strong => {
-                        if (strong.innerText === "" || null) {
-                            strong.remove();
-                        }
-                    });
-                }
-            }
-            function moveTextOutsideStrong() {
-                let selection = window.getSelection();
-                if (selection.rangeCount > 0) {
-                    let range = selection.getRangeAt(0);
-
-                    let selectedText = range.toString();
-                    let strongElements = document.querySelectorAll('#textarea strong');
-
-                    strongElements.forEach(strongElement => {
-                        let strongRange = document.createRange();
-                        strongRange.selectNode(strongElement);
-
-                        if (
-                            strongRange.compareBoundaryPoints(Range.START_TO_START, range) <= 0 &&
-                            strongRange.compareBoundaryPoints(Range.END_TO_END, range) >= 0
-                        ) {
-                            let parent = strongElement.parentNode;
-                            let content = strongElement.innerHTML;
-
-                            let startOffset = range.startOffset;
-                            let endOffset = range.endOffset;
-
-                            let beforeContent = content.substring(0, startOffset);
-                            let selectedContent = content.substring(startOffset, endOffset);
-                            let afterContent = content.substring(endOffset);
-
-                            if (beforeContent !== '') {
-                                let beforeStrong = document.createElement('strong');
-                                beforeStrong.innerHTML = beforeContent;
-                                parent.insertBefore(beforeStrong, strongElement);
-                            }
-
-                            if (selectedContent !== '') {
-                                let selectedStrong = document.createElement('span');
-                                selectedStrong.innerHTML = selectedContent;
-                                parent.insertBefore(selectedStrong, strongElement);
-                                var spanToRemove = parent.querySelector('span');
-                                var textNode = document.createTextNode(spanToRemove.textContent);
-                                var parentElement = spanToRemove.parentElement;
-                                parentElement.replaceChild(textNode, spanToRemove);
-                            }
-
-                            if (afterContent !== '') {
-                                strongElement.innerHTML = afterContent;
-                            } else {
-                                parent.removeChild(strongElement);
-                            }
-
-                            range.deleteContents();
-                        } else {
-                            console.log('Selection includes whole strong element');
-                        }
-                    });
-                }
-            }
-            function isStrong() {
-                let selection = window.getSelection();
-                if (selection.rangeCount > 0) {
-                    let range = selection.getRangeAt(0);
-                    let startNode = range.startContainer;
-                    let endNode = range.endContainer;
-
-                    let strongElements = document.querySelectorAll('#textarea strong');
-
-                    for (let i = 0; i < strongElements.length; i++) {
-                        const strongElement = strongElements[i];
-                        if (strongElement) {
-                            let isInStrong = strongElement.contains(startNode) && strongElement.contains(endNode);
-                            if (isInStrong) {
-                                return true;
-                            }
-                        }
-                    }
-                }
-                return false;
-            }
-            function moveTextInsideEm() {
-                let selection = window.getSelection();
-                if (selection.rangeCount > 0) {
-                    let range = selection.getRangeAt(0);
-                    let selectedText = range.toString();
-                    let startNode = range.startContainer;
-                    let endNode = range.endContainer;
-
-                    let emElement = document.createElement('em');
-                    emElement.textContent = selectedText;
-
-                    // Extract the selected text
-                    range.deleteContents();
-                    range.insertNode(emElement);
-
-                    // Re-select the original range
-                    let newRange = document.createRange();
-                    if (startNode.nodeType === Node.TEXT_NODE) {
-                        newRange.setStart(emElement.firstChild, 0);
-                        newRange.setEnd(emElement.firstChild, selectedText.length);
-                    } else {
-                        newRange.selectNodeContents(emElement);
-                    }
-
-                    selection.removeAllRanges();
-                    selection.addRange(newRange);
-
-                    document.querySelector('#textarea').childNodes.forEach(em => {
-                        if (em.innerText === "" || null) {
-                            em.remove();
-                        }
-                    });
-                }
-            }
-            function moveTextOutsideEm() {
-                let selection = window.getSelection();
-                if (selection.rangeCount > 0) {
-                    let range = selection.getRangeAt(0);
-
-                    let selectedText = range.toString();
-                    let emElements = document.querySelectorAll('#textarea em');
-
-                    emElements.forEach(emElement => {
-                        let emRange = document.createRange();
-                        emRange.selectNode(emElement);
-
-                        if (
-                            emRange.compareBoundaryPoints(Range.START_TO_START, range) <= 0 &&
-                            emRange.compareBoundaryPoints(Range.END_TO_END, range) >= 0
-                        ) {
-                            let parent = emElement.parentNode;
-                            let content = emElement.innerHTML;
-
-                            let startOffset = range.startOffset;
-                            let endOffset = range.endOffset;
-
-                            let beforeContent = content.substring(0, startOffset);
-                            let selectedContent = content.substring(startOffset, endOffset);
-                            let afterContent = content.substring(endOffset);
-
-                            if (beforeContent !== '') {
-                                let beforeem = document.createElement('em');
-                                beforeem.innerHTML = beforeContent;
-                                parent.insertBefore(beforeem, emElement);
-                            }
-
-                            if (selectedContent !== '') {
-                                let selectedem = document.createElement('span');
-                                selectedem.innerHTML = selectedContent;
-                                parent.insertBefore(selectedem, emElement);
-                                var spanToRemove = parent.querySelector('span');
-                                var textNode = document.createTextNode(spanToRemove.textContent);
-                                var parentElement = spanToRemove.parentElement;
-                                parentElement.replaceChild(textNode, spanToRemove);
-                            }
-
-                            if (afterContent !== '') {
-                                emElement.innerHTML = afterContent;
-                            } else {
-                                parent.removeChild(emElement);
-                            }
-
-                            range.deleteContents();
-                        } else {
-                            console.log('Selection includes whole em element');
-                        }
-                    });
-                }
-            }
-            function isEm() {
-                let selection = window.getSelection();
-                if (selection.rangeCount > 0) {
-                    let range = selection.getRangeAt(0);
-                    let startNode = range.startContainer;
-                    let endNode = range.endContainer;
-
-                    let emElements = document.querySelectorAll('#textarea em');
-
-                    for (let i = 0; i < emElements.length; i++) {
-                        const emElement = emElements[i];
-                        if (emElement) {
-                            let isInem = emElement.contains(startNode) && emElement.contains(endNode);
-                            if (isInem) {
-                                return true;
-                            }
-                        }
-                    }
-                }
-                return false;
-            }
         }
     }
 })();

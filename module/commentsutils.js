@@ -46,7 +46,7 @@ const commentsutils = (async () => {
                 requestAnimationFrame(continuousAction);
             });
 
-            document.addEventListener('mouseup', function () {
+            document.addEventListener('pointerup', function () {
                 isMouseDown = false;
             });
 

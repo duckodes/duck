@@ -76,7 +76,7 @@ const main = (async () => {
                         ${languageData.contact.clicktochange ?? '(click to change)'}
                     </div>
                     <div class="name-field">
-                        <input placeholder="${languageData.contact.placeholder.name ?? 'name..'}" type="text" id="name"/>
+                        <input placeholder="${languageData.contact.placeholder.name ?? 'name..'}" type="text" id="name" name="email" autocomplete="email"/>
                         <div id="error-name-txt"></div>
                     </div>
                     <div id="textarea" contenteditable="true" data-content="${languageData.contact.placeholder.textarea ?? 'comments..'}"></div>

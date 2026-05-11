@@ -10,24 +10,30 @@ Tech Notes is an open platform where users can register and share technical cont
 - Users must not post illegal, infringing, or inappropriate content.
 - Users must not use the platform for spam, unauthorized advertising, or malicious activities.
 
-3. Content Ownership
+3. User-Generated Content (UGC) Moderation
+- All user-generated content (UGC), including articles, comments, and technical notes, must comply with platform rules and is subject to moderation.
+- Tech Notes reserves the right to review, approve, or remove any UGC that violates community standards, legal requirements, or these Terms of Service.
+- Users who repeatedly publish inappropriate or harmful content may have their accounts suspended or terminated.
+- Spam, misleading information, or content that promotes violence, discrimination, or illegal activities will not be tolerated.
+
+4. Content Ownership
 - Users retain copyright over the content they publish.
 - By publishing content, users grant Tech Notes a non-exclusive license to display, promote, and back up the content on the platform.
 
-4. Platform Rights
+5. Platform Rights
 - Tech Notes reserves the right to remove content that violates community standards or these Terms of Service.
 - Tech Notes reserves the right to suspend or terminate accounts that violate these Terms.
 
-5. Disclaimer
+6. Disclaimer
 - Tech Notes is not responsible for user-generated content.
 - Information provided on the platform is for reference only and is not guaranteed to be fully accurate or complete.
 
-6. Service Changes
+7. Service Changes
 Tech Notes reserves the right to modify, update, or discontinue services at any time. Significant changes will be announced on the site.
 
-7. Governing Law
+8. Governing Law
 These Terms of Service are governed by the laws of Taiwan. Any disputes shall be subject to the jurisdiction of the New Taipei District Court.
 
-8. Contact
+9. Contact
 For questions or concerns regarding these Terms of Service, please contact us:
 Email: ugamiestudio@gmail.com

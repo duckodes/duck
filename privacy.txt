@@ -1,0 +1,42 @@
+Privacy Policy for Tech Notes
+
+Effective Date: May 12, 2026
+
+1. Information Collection
+Tech Notes is an open platform where users can register and share technical content. When you sign up, we may collect:
+- Basic account information (username, email address).
+- Content you choose to publish (articles, comments, technical notes).
+- Technical data such as browser type, and usage statistics.
+
+2. Use of Information
+We use collected information to:
+- Provide and improve platform services.
+- Moderate and maintain community standards.
+- Communicate updates, security notices, or service-related announcements.
+
+3. Data Sharing
+- Tech Notes does not sell personal information to third parties.
+- Data may be shared with trusted service providers (e.g., hosting, analytics) strictly for operational purposes.
+- Legal compliance: Information may be disclosed if required by law or to protect platform integrity.
+
+4. User Rights
+Users have the right to:
+- Access and update their account information.
+- Request deletion of their account and associated data.
+- Control visibility of their published content.
+
+5. Cookies and Tracking
+Tech Notes may use cookies and analytics tools to:
+- Enhance user experience.
+- Track site performance and usage trends.
+- Remember login sessions securely.
+
+6. Security
+We implement reasonable technical and organizational measures to protect user data. However, no system is completely secure, and users should exercise caution when sharing sensitive information.
+
+7. Policy Updates
+This Privacy Policy may be updated periodically. Users will be notified of significant changes via announcements on the site.
+
+8. Contact
+For questions or concerns about this Privacy Policy, please contact us at:
+Email: ugamiestudio@gmail.com

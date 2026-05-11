@@ -1,6 +1,13 @@
 {
+    "language": {
+        "switch": "lan.en"
+    },
+    "tech": {
+        "subtitle": "Technical notes platform community developed by Duckode, open to everyone.",
+        "more": "last notes"
+    },
     "nav": {
-        "home": "home",
+        "about": "about",
         "topic": "topic",
         "contact": "contact"
     },

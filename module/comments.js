@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getDatabase, onValue, ref, set, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { getDatabase, onValue, ref, set, get, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 import fetcher from "./fetcher.js";
 
 const comments = (() => {
@@ -172,6 +172,69 @@ const comments = (() => {
                     postPrivateData(database, name, textarea, errorNameTxt, errorTextareaTxt, languageData);
             });
             autoUpdateData(database, languageData);
+            return {
+                renderLastTopic: () => {
+                    onValue(ref(database, 'technotes/data'), (snapshot) => {
+                        const data = getLastRecord(snapshot.val());
+                        renderLastTopic(data);
+                    });
+                    function getLastRecord(data) {
+                        let lastRecord = null;
+                        let lastUID = null;
+                        let lastCategory = null;
+                        let lastIndex = null;
+
+                        for (const uid in data) {
+                            for (const category in data[uid]) {
+                                const arr = data[uid][category];
+                                arr.forEach((item, index) => {
+                                    if (!lastRecord || item.date > lastRecord.date) {
+                                        lastRecord = item;
+                                        lastUID = uid;
+                                        lastCategory = category;
+                                        lastIndex = index; // 記錄在陣列中的位置
+                                    }
+                                });
+                            }
+                        }
+
+                        return {
+                            record: lastRecord,
+                            uid: lastUID,
+                            category: lastCategory,
+                            index: lastIndex
+                        };
+                    }
+                    async function getUsernameByUID(uid) {
+                        try {
+                            const snapshot = await get(ref(database, `technotes/user/${uid}/name`));
+                            if (!snapshot.exists()) {
+                                throw new Error('找不到使用者名稱');
+                            }
+                            return snapshot.val();
+                        } catch (error) {
+                            console.error('查找失敗：', error.message);
+                            return null;
+                        }
+                    }
+                    async function renderLastTopic(data) {
+                        const container = document.querySelector('.daily-topic');
+                        const topicItem = container.querySelector('.topic-item');
+                        const topicTitle = container.querySelector('.topic-title');
+                        const topicSummary = container.querySelector('.topic-summary');
+                        const topicTags = container.querySelector('.topic-tags');
+                        const topicDate = container.querySelector('.topic-date');
+                        const topicLink = container.querySelector('.topic-link>a');
+                        topicTitle.textContent = data.record.title;
+                        topicSummary.textContent = data.record.summary;
+                        topicTags.innerHTML = data.record.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+                        topicDate.textContent = new Date(data.record.date).toLocaleString();
+
+                        const username = await getUsernameByUID(data.uid);
+                        topicLink.href = `https://notes.duckode.com/?user=${username}&category=${data.category}&categoryID=${data.index}&info=true`;
+                    }
+                }
+            }
         }
     }
 })();

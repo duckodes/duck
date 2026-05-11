@@ -1,14 +1,14 @@
 const generatecard = (() => {
     return {
         init: async (languageData) => {
-            gcard(languageData.card.items.research, "img/windowgame(unity)/windowgame(unity)_1024x_72ppi.png", "https://notes.duckode.com", languageData);
-            gcard(languageData.card.items.jslibrary, "img/research/research_500x500_72ppi.png", "https://lib.duckode.com", languageData);
-            gcard(languageData.card.items.library, "img/csharplib/topic-csharplib_1024x_144ppi.png", "https://topic-csharplib.duckode.com", languageData);
-        },
-
+            const cardarea = document.querySelector('.card-area');
+            cardarea.innerHTML = '';
+            gcard(cardarea, languageData.card.items.research, "img/windowgame(unity)/windowgame(unity)_1024x_72ppi.png", "https://notes.duckode.com", languageData);
+            gcard(cardarea, languageData.card.items.jslibrary, "img/research/research_500x500_72ppi.png", "https://lib.duckode.com", languageData);
+            gcard(cardarea, languageData.card.items.library, "img/csharplib/topic-csharplib_1024x_144ppi.png", "https://topic-csharplib.duckode.com", languageData);
+        }
     }
-    async function gcard(t, i, l, languageData) {
-        const cardarea = document.querySelector('.card-area');
+    async function gcard(cardarea, t, i, l, languageData) {
         const cardbase = document.createElement('div');
         cardbase.className = "card-base";
         cardarea.appendChild(cardbase);

@@ -1,6 +1,13 @@
 {
+    "language": {
+        "switch": "lan.ch"
+    },
+    "tech": {
+        "subtitle": "由 duckode 開發一個技術筆記社群平台，提供給所有人使用",
+        "more": "最新筆記"
+    },
     "nav": {
-        "home": "主頁",
+        "about": "關於",
         "topic": "開發",
         "contact": "留言"
     },

@@ -1,6 +1,6 @@
 .nav {
     font-family: 'Poiret_One', 'ZenMaruGothic-Light';
-    position: fixed;
+    position: sticky;
     top: 0px;
     width: 100%;
     height: auto;

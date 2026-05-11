@@ -1,5 +1,5 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getDatabase, onValue, ref, set, get, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+import { getDatabase, onValue, ref, set, get, remove } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-database.js";
 import fetcher from "./fetcher.js";
 
 const comments = (() => {

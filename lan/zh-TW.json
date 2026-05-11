@@ -9,18 +9,19 @@
     "nav": {
         "about": "關於",
         "service": "服務",
-        "contact": "留言"
+        "contact": "留言",
+        "joinus": "加入我們"
     },
     "about": [
         "分享低階設計的見解，更多實驗與分析即將推出！",
         "<strong>Tech Notes</strong> 是一個開放平台，開發者可以註冊並分享他們的技術見解。<br>作為版主，我也會撰寫文章——深入探討系統架構，包括渲染管線與低階設計等主題。",
-        "探索你最新的程式專案！"
+        "探索Tech Notes最新的程式專案！"
     ],
     "card": {
         "readmore": "讀更多...",
         "items": {
             "jslibrary": "JS庫",
-            "research": "軟體開發研究",
+            "research": "Duckode 軟體開發研究",
             "library": "程式庫開發",
             "game": ".EXE 遊戲"
         }

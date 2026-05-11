@@ -11,6 +11,7 @@ const generatecard = (() => {
     async function gcard(cardarea, t, i, l, languageData) {
         const cardbase = document.createElement('div');
         cardbase.className = "card-base";
+        cardbase.dataset.url = l;
         cardarea.appendChild(cardbase);
         if (t.trim() !== '') {
             const span = document.createElement('span');

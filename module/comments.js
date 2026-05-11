@@ -175,35 +175,38 @@ const comments = (() => {
             return {
                 renderLastTopic: () => {
                     onValue(ref(database, 'technotes/data'), (snapshot) => {
-                        const data = getLastRecord(snapshot.val());
-                        renderLastTopic(data);
+                        const datas = getLastRecords(snapshot.val());
+                        const container = document.querySelector('.daily-topic');
+                        const template = container.querySelector('.topic-item');
+
+                        container.innerHTML = '';
+
+                        datas.forEach(item => {
+                            const clone = template.cloneNode(true);
+                            container.appendChild(clone);
+                            renderLastTopic(item, clone);
+                        });
                     });
-                    function getLastRecord(data) {
-                        let lastRecord = null;
-                        let lastUID = null;
-                        let lastCategory = null;
-                        let lastIndex = null;
+                    function getLastRecords(data, lastCount = 5) {
+                        let records = [];
 
                         for (const uid in data) {
                             for (const category in data[uid]) {
                                 const arr = data[uid][category];
                                 arr.forEach((item, index) => {
-                                    if (!lastRecord || item.date > lastRecord.date) {
-                                        lastRecord = item;
-                                        lastUID = uid;
-                                        lastCategory = category;
-                                        lastIndex = index; // 記錄在陣列中的位置
-                                    }
+                                    records.push({
+                                        record: item,
+                                        uid,
+                                        category,
+                                        index
+                                    });
                                 });
                             }
                         }
 
-                        return {
-                            record: lastRecord,
-                            uid: lastUID,
-                            category: lastCategory,
-                            index: lastIndex
-                        };
+                        records.sort((a, b) => new Date(b.record.date) - new Date(a.record.date));
+
+                        return records.slice(0, lastCount);
                     }
                     async function getUsernameByUID(uid) {
                         try {
@@ -217,20 +220,20 @@ const comments = (() => {
                             return null;
                         }
                     }
-                    async function renderLastTopic(data) {
-                        const container = document.querySelector('.daily-topic');
-                        const topicItem = container.querySelector('.topic-item');
-                        const topicTitle = container.querySelector('.topic-title');
-                        const topicSummary = container.querySelector('.topic-summary');
-                        const topicTags = container.querySelector('.topic-tags');
-                        const topicDate = container.querySelector('.topic-date');
-                        const topicLink = container.querySelector('.topic-link>a');
-                        topicTitle.textContent = data.record.title;
+                    async function renderLastTopic(data, topicItem) {
+                        const username = await getUsernameByUID(data.uid);
+
+                        const topicTitle = topicItem.querySelector('.topic-title');
+                        const topicSummary = topicItem.querySelector('.topic-summary');
+                        const topicTags = topicItem.querySelector('.topic-tags');
+                        const topicDate = topicItem.querySelector('.topic-date');
+                        const topicLink = topicItem.querySelector('.topic-link>a');
+
+                        topicTitle.innerHTML = `${data.record.title} | Auth: <strong>${username}</strong>`;
                         topicSummary.textContent = data.record.summary;
-                        topicTags.innerHTML = data.record.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+                        topicTags.innerHTML = data.record.tags.map(tag => `<a class="tag" href="https://notes.duckode.com/?user=${username}&tag=${tag}&page=1&info=true">${tag}</a>`).join('');
                         topicDate.textContent = new Date(data.record.date).toLocaleString();
 
-                        const username = await getUsernameByUID(data.uid);
                         topicLink.href = `https://notes.duckode.com/?user=${username}&category=${data.category}&categoryID=${data.index}&info=true`;
                     }
                 }

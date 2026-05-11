@@ -64,6 +64,9 @@ const main = (async () => {
         <div class="navbtn">
             ${languageData.nav.contact ?? 'contact'}
         </div>
+        <div class="navbtn">
+            ${languageData.nav.joinus ?? 'Join Us'}
+        </div>
     </div>
     <div class="content">
         <div class="about">
@@ -76,7 +79,7 @@ const main = (async () => {
                     ${languageData.about[1] ?? '<strong>Tech Notes</strong> is an open platform where developers can register and share their technical insights.<br>As the moderator, I also contribute articles — <strong>deep dives into system architecture</strong>, including topics like rendering pipelines and low-level design.'}
                 </p>
                 <span>
-                    ${languageData.about[2] ?? 'Exploring your latest coding projects!'}
+                    <a href="https://notes.duckode.com/">${languageData.about[2] ?? 'Exploring Tech Notes latest coding projects!'}</a>
                 </span>
             </div>
         </div>

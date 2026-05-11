@@ -10,6 +10,9 @@ const scrollview = (() => {
             clickutils.click(document.querySelectorAll('.navbtn')[2], 0, () => {
                 scrollviewutils.cto('.contact');
             });
+            clickutils.click(document.querySelectorAll('.navbtn')[3], 0, () => {
+                scrollviewutils.cto('.tech-notes');
+            });
             clickutils.click(document.querySelector('.tech-notes-more>span'), 0, () => {
                 scrollviewutils.cto('.daily-topic');
             });

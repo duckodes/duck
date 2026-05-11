@@ -9,18 +9,19 @@
     "nav": {
         "about": "about",
         "service": "service",
-        "contact": "contact"
+        "contact": "contact",
+        "joinus": "join us"
     },
     "about": [
         "Sharing insights from low-level design, and more experiments and analysis coming soon!",
         "<strong>Tech Notes</strong> is an open platform where developers can register and share their technical insights.<br>As the moderator, I also contribute articles — <strong>deep dives into system architecture</strong>, including topics like rendering pipelines and low-level design.",
-        "Exploring your latest coding projects!"
+        "Exploring Tech Notes latest coding projects!"
     ],
     "card": {
         "readmore": "Read More",
         "items": {
             "jslibrary": "Javascript Library",
-            "research": "Software Research",
+            "research": "Duckode Software Research",
             "library": "Unity Script Library",
             "game": ".EXE Game(Unity)"
         }

@@ -28,7 +28,7 @@ const main = (async () => {
         await generatecard.init(languageData);
 
         // dynamicontent.inititle(["Duckode", "Hello", "Quack, quack!"], document.querySelector('title'));
-        dynamicontent.init(["Hello, This is Duckode!", "Welcome!"], document.querySelector('.title'), '#36f', 10000);
+        dynamicontent.init(["Hello, This is Duckode!", "Welcome!"], document.querySelector('.title'), '#9fc4e2', 10000);
 
         (await commentsutils).init();
     }

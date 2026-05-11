@@ -14,7 +14,7 @@ const scrollview = (() => {
                 scrollviewutils.cto('.daily-topic');
             });
             clickutils.click(document.querySelector('.daily-topic-more>span'), 0, () => {
-                scrollviewutils.cto('.nav');
+                scrollviewutils.cto('.about');
             });
         }
     }

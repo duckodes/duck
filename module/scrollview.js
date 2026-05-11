@@ -2,16 +2,19 @@ const scrollview = (() => {
     return {
         init: async () => {
             clickutils.click(document.querySelectorAll('.navbtn')[0], 0, () => {
-                scrollviewutils.cto('.about');
+                scrollviewutils.cto('.tech-notes');
             });
             clickutils.click(document.querySelectorAll('.navbtn')[1], 0, () => {
-                scrollviewutils.cto('.card');
+                scrollviewutils.cto('.about');
             });
             clickutils.click(document.querySelectorAll('.navbtn')[2], 0, () => {
-                scrollviewutils.cto('.contact');
+                scrollviewutils.cto('.card');
             });
             clickutils.click(document.querySelectorAll('.navbtn')[3], 0, () => {
-                scrollviewutils.cto('.tech-notes');
+                scrollviewutils.cto('.recommended');
+            });
+            clickutils.click(document.querySelectorAll('.navbtn')[4], 0, () => {
+                scrollviewutils.cto('footer');
             });
             clickutils.click(document.querySelector('.tech-notes-more>span'), 0, () => {
                 scrollviewutils.cto('.daily-topic');

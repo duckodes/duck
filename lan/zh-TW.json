@@ -9,8 +9,9 @@
     "nav": {
         "about": "關於",
         "service": "服務",
-        "contact": "留言",
-        "joinus": "加入我們"
+        "recommended": "推薦精選",
+        "joinus": "加入我們",
+        "policy": "隱私權政策"
     },
     "about": [
         "分享低階設計的見解，更多實驗與分析即將推出！",

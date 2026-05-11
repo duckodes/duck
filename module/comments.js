@@ -174,18 +174,25 @@ const comments = (() => {
             autoUpdateData(database, languageData);
             return {
                 renderLastTopic: () => {
-                    onValue(ref(database, 'technotes/data'), (snapshot) => {
+                    onValue(ref(database, 'technotes/data'), async (snapshot) => {
                         const datas = getLastRecords(snapshot.val());
                         const container = document.querySelector('.daily-topic');
+                        const templeteContainer = document.querySelector('topic-item-container') || document.createElement('topic-item-container');
+                        container.appendChild(templeteContainer);
                         const template = container.querySelector('.topic-item');
+                        template.style.display = '';
 
-                        container.innerHTML = '';
+                        templeteContainer.innerHTML = '';
 
                         datas.forEach(item => {
                             const clone = template.cloneNode(true);
-                            container.appendChild(clone);
+                            templeteContainer.appendChild(clone);
                             renderLastTopic(item, clone);
                         });
+                        const duckodeUID = await getUIDByUsername('duckode');
+                        await renderRecommanded(snapshot.val()[duckodeUID]['Csharp'][9]);
+
+                        template.style.display = 'none';
                     });
                     function getLastRecords(data, lastCount = 5) {
                         let records = [];
@@ -220,6 +227,18 @@ const comments = (() => {
                             return null;
                         }
                     }
+                    async function getUIDByUsername(username) {
+                        try {
+                            const snapshot = await get(ref(database, `technotes/check/${username}`));
+                            if (!snapshot.exists()) {
+                                throw new Error('找不到使用者名稱');
+                            }
+                            return snapshot.val();
+                        } catch (error) {
+                            console.error('查找失敗：', error.message);
+                            return null;
+                        }
+                    }
                     async function renderLastTopic(data, topicItem) {
                         const username = await getUsernameByUID(data.uid);
 
@@ -235,6 +254,18 @@ const comments = (() => {
                         topicDate.textContent = new Date(data.record.date).toLocaleString();
 
                         topicLink.href = `https://notes.duckode.com/?user=${username}&category=${data.category}&categoryID=${data.index}&info=true`;
+                    }
+                    async function renderRecommanded(data) {
+                        const recommended = document.querySelector('.recommended');
+                        const recommendedPicks = document.querySelector('.recommended-picks');
+                        const recommendedTitle = recommendedPicks.querySelector('.recommended-title');
+                        const recommendedTags = recommendedPicks.querySelector('.recommended-tags');
+                        const recommendedContent = recommendedPicks.querySelector('.recommended-content');
+                        const recommendedLink = recommendedPicks.querySelector('.recommended-link>a');
+                        recommendedTitle.textContent = data.title;
+                        recommendedTags.innerHTML = data.tags.map(tag => `<a class="tag" href="https://notes.duckode.com/?user=duckode&tag=${tag}&page=1&info=true">${tag}</a>`).join('');
+                        recommendedContent.textContent = data.summary;
+                        recommendedLink.href = `https://notes.duckode.com/?user=duckode&category=Csharp&categoryID=9&info=true`;
                     }
                 }
             }

@@ -102,7 +102,7 @@ body {
 .daily-topic {
     margin-top: 50px;
     display: flex;
-    /* flex-direction: column; */
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
@@ -112,12 +112,20 @@ body {
     flex-wrap: wrap;
 }
 
-.daily-topic h2 {
+.daily-topic h2 a {
     font-size: 2rem;
     font-weight: bold;
     color: #75a0c4;
     margin-bottom: 30px;
     text-align: center;
+    text-decoration: none;
+}
+
+topic-item-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .topic-item {
@@ -288,6 +296,76 @@ main {
     width: auto;
     max-width: 50%;
     z-index: -1;
+}
+
+.recommended {
+    width: auto;
+    display: flex;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    height: 100%;
+    min-height: 100dvh;
+}
+
+.recommended>span {
+    font-size: 30px;
+    padding: 50px;
+}
+
+.recommended-picks {
+    background-color: #f7f7f7;
+    box-shadow: 5px 5px 15px #00000020;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 50%;
+    width: 90%;
+    margin-bottom: 40px;
+}
+
+.recommended-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #666666;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.recommended-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.recommended-tags .tag {
+    background-color: #f36f6f;
+    color: #fff;
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    border-radius: 15px;
+    box-shadow: 2px 2px 5px #00000020;
+    cursor: pointer;
+    user-select: none;
+    text-decoration: none;
+}
+
+.recommended-tags .tag:hover {
+    background-color: #e2e2e2;
+    color: #333;
+}
+
+.recommended-link {
+    text-align: end;
+}
+
+.recommended-link a {
+    color: #75a0c4;
+    text-decoration: none;
+    font-size: larger;
 }
 
 .contact {

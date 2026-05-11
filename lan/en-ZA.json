@@ -4,13 +4,14 @@
     },
     "tech": {
         "subtitle": "Technical notes platform community developed by Duckode, open to everyone.",
-        "more": "last notes"
+        "more": "new notes"
     },
     "nav": {
         "about": "about",
         "service": "service",
-        "contact": "contact",
-        "joinus": "join us"
+        "recommended": "recommended picks",
+        "joinus": "join us",
+        "policy": "privacy policy"
     },
     "about": [
         "Sharing insights from low-level design, and more experiments and analysis coming soon!",

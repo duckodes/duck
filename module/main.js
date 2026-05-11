@@ -70,14 +70,13 @@ const main = (async () => {
             <h1 class="title">Hello, This is Duckode!</h1>
             <div class="about-subtitle">
                 <p>
-                    Sharing insights from low-level design, and more experiments and analysis coming soon!
+                    ${languageData.about[0] ?? 'Sharing insights from low-level design, and more experiments and analysis coming soon!'}
                 </p>
                 <p>
-                    <strong>Tech Notes</strong> is an open platform where developers can register and share their technical insights.<br>
-                    As the moderator, I also contribute articles — <strong>deep dives into system architecture</strong>, including topics like rendering pipelines and low-level design.
+                    ${languageData.about[1] ?? '<strong>Tech Notes</strong> is an open platform where developers can register and share their technical insights.<br>As the moderator, I also contribute articles — <strong>deep dives into system architecture</strong>, including topics like rendering pipelines and low-level design.'}
                 </p>
                 <span>
-                    Exploring your latest coding projects!
+                    ${languageData.about[2] ?? 'Exploring your latest coding projects!'}
                 </span>
             </div>
         </div>

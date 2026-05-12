@@ -146,6 +146,13 @@ topic-item-container {
     margin-bottom: 15px;
 }
 
+.topic-title strong {
+    background: linear-gradient(90deg, #909090, #303030);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    cursor: pointer;
+}
+
 .topic-summary {
     font-size: 1.2rem;
     color: #707070;

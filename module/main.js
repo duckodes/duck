@@ -35,7 +35,7 @@ const main = (async () => {
 
         (await commentsutils).init();
 
-        
+
         const nav = document.querySelector('.nav');
         const trigger = document.querySelector('.nav-trigger');
         const observer = new IntersectionObserver(
@@ -92,7 +92,7 @@ const main = (async () => {
             <h1 class="title">Hello, This is Duckode!</h1>
             <div class="about-subtitle">
                 <p>
-                    ${languageData.about[0] ?? 'Sharing insights from low-level design, and more experiments and analysis coming soon!'}
+                    ${languageData.about[0] ?? 'Share programming development insights, along with more experiments and analysis!'}
                 </p>
                 <p>
                     ${languageData.about[1] ?? '<strong>Tech Notes</strong> is an open platform where developers can register and share their technical insights.<br>As the moderator, I also contribute articles — <strong>deep dives into system architecture</strong>, including topics like rendering pipelines and low-level design.'}

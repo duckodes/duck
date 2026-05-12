@@ -174,11 +174,12 @@ const comments = (() => {
             autoUpdateData(database, languageData);
             return {
                 renderLastTopic: () => {
+                    const dailyTopicRow = document.querySelector('.daily-topic-row');
                     onValue(ref(database, 'technotes/data'), async (snapshot) => {
                         const datas = getLastRecords(snapshot.val());
                         const container = document.querySelector('.daily-topic');
                         const templeteContainer = document.querySelector('topic-item-container') || document.createElement('topic-item-container');
-                        container.appendChild(templeteContainer);
+                        dailyTopicRow.appendChild(templeteContainer);
                         const template = container.querySelector('.topic-item');
                         template.style.display = '';
 
@@ -191,6 +192,8 @@ const comments = (() => {
                         });
                         const duckodeUID = await getUIDByUsername('duckode');
                         await renderRecommanded(snapshot.val()[duckodeUID]['Csharp'][9]);
+
+                        showCommits("duckodes", "TechNotes", 7);
 
                         template.style.display = 'none';
                     });
@@ -266,6 +269,26 @@ const comments = (() => {
                         recommendedTags.innerHTML = data.tags.map(tag => `<a class="tag" href="https://notes.duckode.com/?user=duckode&tag=${tag}&page=1&info=true">${tag}</a>`).join('');
                         recommendedContent.textContent = data.summary;
                         recommendedLink.href = `https://notes.duckode.com/?user=duckode&category=Csharp&categoryID=9&info=true`;
+                    }
+                    async function showCommits(owner, repo, n) {
+                        const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/commits?per_page=${n}`);
+                        const commits = await res.json();
+
+                        const container = document.getElementById('commits');
+                        container.innerHTML = "";
+
+                        const ul = document.createElement('ul');
+                        const firstLi = document.createElement('li');
+                        firstLi.textContent = 'New Feature!';
+                        ul.appendChild(firstLi);
+                        commits.forEach(commit => {
+                            const li = document.createElement('li');
+                            li.textContent = `${commit.commit.message}`;// - ${commit.sha.substring(0, 7)}
+                            ul.appendChild(li);
+                        });
+
+                        container.appendChild(ul);
+                        dailyTopicRow.appendChild(container);
                     }
                 }
             }

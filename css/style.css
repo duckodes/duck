@@ -121,6 +121,35 @@ body {
     text-decoration: none;
 }
 
+.daily-topic-row {
+    display: flex;
+    align-items: start;
+}
+
+#commits {
+    position: sticky;
+    top: 0;
+}
+
+#commits ul {
+    padding-left: 0;
+    margin: 0;
+    user-select: none;
+}
+
+#commits li {
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+    font-family: monospace;
+    font-size: 20px;
+}
+
+#commits li:first-child{
+    list-style-type: none;
+    font-size: 35px;
+}
+
+
 topic-item-container {
     display: flex;
     align-items: center;

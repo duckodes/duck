@@ -40,7 +40,7 @@ const main = (async () => {
         const trigger = document.querySelector('.nav-trigger');
         const observer = new IntersectionObserver(
             ([entry]) => {
-                if (!entry.isIntersecting) {
+                if (!entry.isIntersecting && entry.boundingClientRect.y <= 0) {
                     nav.classList.add('sticky');
                 } else {
                     nav.classList.remove('sticky');

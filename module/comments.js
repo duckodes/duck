@@ -253,10 +253,10 @@ const comments = (() => {
 
                         topicTitle.innerHTML = `${data.record.title} | Auth: <strong>${username}</strong>`;
                         topicSummary.textContent = data.record.summary;
-                        topicTags.innerHTML = data.record.tags.map(tag => `<a class="tag" href="https://notes.duckode.com/?user=${username}&tag=${tag}&page=1&info=true">${tag}</a>`).join('');
+                        topicTags.innerHTML = data.record.tags.map(tag => `<a class="tag" href="https://www.noteest.com/note/?user=${username}&tag=${tag}&page=1&info=true">${tag}</a>`).join('');
                         topicDate.textContent = new Date(data.record.date).toLocaleString();
 
-                        topicLink.href = `https://notes.duckode.com/?user=${username}&category=${data.category}&categoryID=${data.index}&info=true`;
+                        topicLink.href = `https://www.noteest.com/note/?user=${username}&category=${data.category}&categoryID=${data.index}&info=true`;
                     }
                     async function renderRecommanded(data) {
                         const recommended = document.querySelector('.recommended');
@@ -266,9 +266,9 @@ const comments = (() => {
                         const recommendedContent = recommendedPicks.querySelector('.recommended-content');
                         const recommendedLink = recommendedPicks.querySelector('.recommended-link>a');
                         recommendedTitle.textContent = data.title;
-                        recommendedTags.innerHTML = data.tags.map(tag => `<a class="tag" href="https://notes.duckode.com/?user=duckode&tag=${tag}&page=1&info=true">${tag}</a>`).join('');
+                        recommendedTags.innerHTML = data.tags.map(tag => `<a class="tag" href="https://www.noteest.com/note/?user=duckode&tag=${tag}&page=1&info=true">${tag}</a>`).join('');
                         recommendedContent.textContent = data.summary;
-                        recommendedLink.href = `https://notes.duckode.com/?user=duckode&category=Csharp&categoryID=9&info=true`;
+                        recommendedLink.href = `https://www.noteest.com/note/?user=duckode&category=Csharp&categoryID=9&info=true`;
                     }
                     async function showCommits(owner, repo, n) {
                         const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/commits?per_page=${n}`);

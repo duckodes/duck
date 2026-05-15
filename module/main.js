@@ -22,8 +22,8 @@ const main = (async () => {
     async function init(languageData) {
         mainElement.innerHTML = render(languageData);
         document.querySelector('.language-switch').textContent = languageData.language.switch ?? 'en zh';
-        document.querySelector('.tech-notes-subtitle').textContent = languageData.tech.subtitle ?? 'Technical notes platform community developed by Duckode, open to everyone.';
-        document.querySelector('.tech-notes-more-text').textContent = languageData.tech.more ?? 'More Services';
+        document.querySelector('.noteest-subtitle').textContent = languageData.noteest.subtitle ?? 'Technical notes platform community developed by Duckode, open to everyone.';
+        document.querySelector('.noteest-more-text').textContent = languageData.noteest.more ?? 'More Services';
 
         const commentsInstance = await comments.init(languageData);
         commentsInstance.renderLastTopic();
@@ -31,7 +31,7 @@ const main = (async () => {
         await generatecard.init(languageData);
 
         // dynamicontent.inititle(["Duckode", "Hello", "Quack, quack!"], document.querySelector('title'));
-        dynamicontent.init(["Welcome! This is Duckode!", "Share!"], document.querySelector('.title'), '#9fc4e2', 10000);
+        dynamicontent.init(languageData.dynamicontent, document.querySelector('.title'), '#9fc4e2', 10000);
 
         (await commentsutils).init();
 
@@ -42,8 +42,10 @@ const main = (async () => {
             ([entry]) => {
                 if (!entry.isIntersecting && entry.boundingClientRect.y <= 0) {
                     nav.classList.add('sticky');
+                    document.querySelector('.language-switch').style.color = "#9fc4e2";
                 } else {
                     nav.classList.remove('sticky');
+                    document.querySelector('.language-switch').style.color = "";
                 }
             },
             { threshold: 1 }

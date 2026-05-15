@@ -2,7 +2,12 @@
     "language": {
         "switch": "lan.ch"
     },
-    "tech": {
+    "dynamicontent": [
+        "歡迎！ 我是 Duckode！",
+        "分享程式開發見解，和更多實驗與分析！"
+    ],
+    "noteest": {
+        "title": "Noteest",
         "subtitle": "由 duckode 開發一個技術筆記社群平台，提供給所有人使用",
         "more": "最新筆記"
     },

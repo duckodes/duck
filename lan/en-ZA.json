@@ -2,7 +2,12 @@
     "language": {
         "switch": "lan.en"
     },
-    "tech": {
+    "dynamicontent": [
+        "Welcome! This is Duckode!",
+        "Share programming insights, along with more experiments and analyses!"
+    ],
+    "noteest": {
+        "title": "Noteest",
         "subtitle": "Technical notes platform community developed by Duckode, open to everyone.",
         "more": "new notes"
     },

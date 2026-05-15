@@ -41,7 +41,7 @@ body {
 }
 
 
-.tech-notes {
+.noteest {
     display: flex;
     align-self: center;
     justify-content: center;
@@ -53,24 +53,77 @@ body {
     font-family: 'Ysabeau_SC', 'ZenMaruGothic-Light';
 }
 
-.tech-notes-big-title {
+.noteest-title {
     font-size: 3rem;
     font-weight: bold;
     text-align: center;
 }
 
-.tech-notes-big-title a {
-    color: #75a0c4;
-    text-decoration: none;
+.noteest-logo {
+    width: 100%;
+    height: 100%;
+    background-image: url('../img/noteest/noteest_min_1024x_144p.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    font-family: 'Ysabeau_SC', 'ZenMaruGothic-Light';
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.7;
 }
 
-.tech-notes-join {
+.noteest-logo-more {
+    cursor: pointer;
+    position: sticky;
+    top: 0px;
+    font-size: 1.5rem;
+    color: #aaaaaa;
+    text-align: center;
+    margin-top: 80dvh;
+    animation: fadeDown 2s linear infinite;
+}
+
+
+@keyframes fadeDown {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(20px);
+    }
+    100% {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+}
+
+.noteest-logo-more-text {
+    font-size: 1.5rem;
+    color: #aaaaaa;
+    text-align: center;
+    user-select: none;
+}
+
+.noteest-logo-more>span {
+    user-select: none;
+}
+
+.noteest-title a {
+    text-decoration: none;
+    background: linear-gradient(90deg, #0f4570, #75a0c4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.noteest-join {
     color: #75a0c4;
     text-decoration: none;
     font-size: 1.5rem;
 }
 
-.tech-notes-subtitle {
+.noteest-subtitle {
     font-size: 1.5rem;
     text-align: center;
     margin-top: 10px;
@@ -79,7 +132,7 @@ body {
     max-width: 70%;
 }
 
-.tech-notes-more {
+.noteest-more {
     position: sticky;
     font-size: 1.5rem;
     color: #aaaaaa;
@@ -87,14 +140,14 @@ body {
     margin-top: 200px;
 }
 
-.tech-notes-more-text {
+.noteest-more-text {
     font-size: 1.5rem;
     color: #aaaaaa;
     text-align: center;
     user-select: none;
 }
 
-.tech-notes-more>span {
+.noteest-more>span {
     cursor: pointer;
     user-select: none;
 }

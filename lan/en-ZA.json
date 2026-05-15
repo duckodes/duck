@@ -15,8 +15,8 @@
     },
     "about": [
         "Share programming development insights, along with more experiments and analysis!",
-        "<strong>Tech Notes</strong> is an open platform where developers can register and share their technical insights.<br>As the moderator, I also contribute articles — <strong>deep dives into system architecture</strong>, including topics like rendering pipelines and low-level design.",
-        "Exploring Tech Notes latest coding projects!"
+        "<strong>Noteest</strong> is an open platform where developers can register and share their technical insights.<br>As the moderator, I also contribute articles — <strong>deep dives into system architecture</strong>, including topics like rendering pipelines and low-level design.",
+        "Exploring Noteest latest coding projects!"
     ],
     "card": {
         "readmore": "Read More",

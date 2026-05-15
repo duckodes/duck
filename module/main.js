@@ -98,7 +98,7 @@ const main = (async () => {
                     ${languageData.about[1] ?? '<strong>Noteest</strong> is an open platform where developers can register and share their technical insights.<br>As the moderator, I also contribute articles — <strong>deep dives into system architecture</strong>, including topics like rendering pipelines and low-level design.'}
                 </p>
                 <span>
-                    <a href="https://notes.duckode.com/">${languageData.about[2] ?? 'Exploring Noteest latest coding projects!'}</a>
+                    <a href="./note">${languageData.about[2] ?? 'Exploring Noteest latest coding projects!'}</a>
                 </span>
             </div>
         </div>

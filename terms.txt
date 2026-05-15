@@ -1,9 +1,9 @@
-Tech Notes Terms of Service
+Noteest Terms of Service
 
 Effective Date: May 12, 2026
 
 1. Platform Use
-Tech Notes is an open platform where users can register and share technical content. By accessing or using the platform, you agree to comply with these Terms of Service.
+Noteest is an open platform where users can register and share technical content. By accessing or using the platform, you agree to comply with these Terms of Service.
 
 2. User Responsibilities
 - Users are solely responsible for the content they publish.
@@ -12,24 +12,24 @@ Tech Notes is an open platform where users can register and share technical cont
 
 3. User-Generated Content (UGC) Moderation
 - All user-generated content (UGC), including articles, comments, and technical notes, must comply with platform rules and is subject to moderation.
-- Tech Notes reserves the right to review, approve, or remove any UGC that violates community standards, legal requirements, or these Terms of Service.
+- Noteest reserves the right to review, approve, or remove any UGC that violates community standards, legal requirements, or these Terms of Service.
 - Users who repeatedly publish inappropriate or harmful content may have their accounts suspended or terminated.
 - Spam, misleading information, or content that promotes violence, discrimination, or illegal activities will not be tolerated.
 
 4. Content Ownership
 - Users retain copyright over the content they publish.
-- By publishing content, users grant Tech Notes a non-exclusive license to display, promote, and back up the content on the platform.
+- By publishing content, users grant Noteest a non-exclusive license to display, promote, and back up the content on the platform.
 
 5. Platform Rights
-- Tech Notes reserves the right to remove content that violates community standards or these Terms of Service.
-- Tech Notes reserves the right to suspend or terminate accounts that violate these Terms.
+- Noteest reserves the right to remove content that violates community standards or these Terms of Service.
+- Noteest reserves the right to suspend or terminate accounts that violate these Terms.
 
 6. Disclaimer
-- Tech Notes is not responsible for user-generated content.
+- Noteest is not responsible for user-generated content.
 - Information provided on the platform is for reference only and is not guaranteed to be fully accurate or complete.
 
 7. Service Changes
-Tech Notes reserves the right to modify, update, or discontinue services at any time. Significant changes will be announced on the site.
+Noteest reserves the right to modify, update, or discontinue services at any time. Significant changes will be announced on the site.
 
 8. Governing Law
 These Terms of Service are governed by the laws of Taiwan. Any disputes shall be subject to the jurisdiction of the New Taipei District Court.

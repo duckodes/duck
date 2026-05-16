@@ -1,0 +1,29 @@
+name: Auto Update Submodule
+
+on:
+  schedule:
+    - cron: '0 3 * * *'  # 每天凌晨 3 點執行（UTC）
+  workflow_dispatch:
+
+jobs:
+  update-submodule:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main repo
+        uses: actions/checkout@v4
+        with:
+          submodules: false
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update all submodules recursively
+        run: |
+          git submodule update --init --recursive --remote --force
+
+      - name: Commit updated submodule pointers
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "chore: update submodules recursively" || echo "No changes"
+          git push

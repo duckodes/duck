@@ -90,9 +90,11 @@ body {
         transform: translateY(0);
         opacity: 1;
     }
+
     50% {
         transform: translateY(20px);
     }
+
     100% {
         transform: translateY(20px);
         opacity: 0;
@@ -764,6 +766,25 @@ footer {
     text-align: center;
     padding: 20px 10px;
     font-size: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+footer .ugsoft-logo {
+    width: 500px;
+    height: 500px;
+    background-image: url(../img/UGsoft/UGsoftLogo.png);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+footer .footer-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 footer a {
@@ -813,5 +834,9 @@ footer a:hover {
 
     #commits li:first-child {
         font-size: 1.5rem;
+    }
+
+    footer .ugsoft-logo {
+        height: 150px;
     }
 }
